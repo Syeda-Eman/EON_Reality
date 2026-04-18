@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Riyadh Skills — منصة رياضة المهارات</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg: #0c0f0e;
+  --bg2: #131816;
+  --bg3: #1a1f1d;
+  --card: #1e2422;
+  --border: rgba(255,255,255,0.08);
+  --border2: rgba(255,255,255,0.14);
+  --green: #2de38c;
+  --green2: #1ab86e;
+  --green-dim: rgba(45,227,140,0.12);
+  --green-glow: rgba(45,227,140,0.25);
+  --text: #f0f2f0;
+  --text2: #8a9490;
+  --text3: #5a6460;
+  --pill-ai-bg: #0f2a3d; --pill-ai: #5bbfff;
+  --pill-fin-bg: #1a2e0f; --pill-fin: #7de05a;
+  --pill-re-bg: #2e200a; --pill-re: #f5a623;
+  --pill-data-bg: #1e0f2e; --pill-data: #b57bff;
+  --pill-dig-bg: #0f2a2e; --pill-dig: #5be0e0;
+  --danger: #ff5c5c;
+  --success: #2de38c;
+  --radius: 12px;
+  --radius-sm: 8px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+h1,h2,h3,h4,.syne{font-family:'Syne',sans-serif}
+.page{display:none}
+.page.active{display:block}
+
+/* ── LANDING ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:18px 60px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:rgba(12,15,14,0.85);backdrop-filter:blur(20px)}
+.nav-logo{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--text);letter-spacing:-.02em}
+.nav-logo span{color:var(--green)}
+.nav-links{display:flex;gap:28px}
+.nav-links a{font-size:14px;color:var(--text2);text-decoration:none;transition:.2s}
+.nav-links a:hover{color:var(--text)}
+.nav-actions{display:flex;gap:10px;align-items:center}
+.btn-ghost{padding:8px 20px;font-size:13px;font-family:'DM Sans',sans-serif;border:1px solid var(--border2);border-radius:99px;background:transparent;color:var(--text);cursor:pointer;transition:.2s}
+.btn-ghost:hover{background:var(--bg3);border-color:var(--green);color:var(--green)}
+.btn-green{padding:8px 22px;font-size:13px;font-family:'DM Sans',sans-serif;border:none;border-radius:99px;background:var(--green);color:#0c0f0e;font-weight:600;cursor:pointer;transition:.2s}
+.btn-green:hover{background:var(--green2)}
+
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:120px 40px 80px;position:relative;overflow:hidden}
+.hero-glow{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(45,227,140,0.08) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;opacity:.4}
+.hero-content{position:relative;z-index:1;max-width:780px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border:1px solid var(--green);border-radius:99px;font-size:12px;color:var(--green);margin-bottom:28px;font-weight:500}
+.hero-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.hero h1{font-size:clamp(40px,6vw,72px);font-weight:800;line-height:1.05;letter-spacing:-.03em;margin-bottom:12px;color:var(--text)}
+.hero h1 .ar-headline{display:block;direction:rtl;color:var(--green)}
+.hero p{font-size:17px;color:var(--text2);line-height:1.7;max-width:560px;margin:0 auto 36px;font-weight:300}
+.hero-ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-hero{padding:14px 32px;font-size:15px;font-family:'Syne',sans-serif;font-weight:600;border-radius:99px;cursor:pointer;transition:.2s;letter-spacing:-.01em}
+.btn-hero-primary{background:var(--green);color:#0c0f0e;border:none}
+.btn-hero-primary:hover{background:var(--green2);transform:translateY(-1px)}
+.btn-hero-secondary{background:transparent;color:var(--text);border:1px solid var(--border2)}
+.btn-hero-secondary:hover{border-color:var(--green);color:var(--green)}
+.hero-stats{display:flex;gap:40px;justify-content:center;margin-top:56px;padding-top:40px;border-top:1px solid var(--border)}
+.stat-val{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:var(--text)}
+.stat-lbl{font-size:12px;color:var(--text3);margin-top:2px}
+
+.section{padding:80px 60px}
+.section-label{font-size:11px;color:var(--green);letter-spacing:.12em;text-transform:uppercase;font-weight:600;margin-bottom:12px}
+.section-title{font-size:clamp(28px,4vw,42px);font-weight:800;letter-spacing:-.025em;color:var(--text);margin-bottom:16px}
+.section-sub{font-size:15px;color:var(--text2);max-width:480px;line-height:1.7;font-weight:300}
+
+.benefits-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:48px}
+.benefit-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;transition:.25s}
+.benefit-card:hover{border-color:var(--green);transform:translateY(-2px)}
+.benefit-icon-wrap{width:44px;height:44px;border-radius:10px;background:var(--green-dim);display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:20px}
+.benefit-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--text);margin-bottom:6px}
+.benefit-ar{direction:rtl;font-size:12px;color:var(--green);margin-bottom:8px}
+.benefit-desc{font-size:13px;color:var(--text2);line-height:1.6}
+
+.courses-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px}
+.course-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;transition:.25s;cursor:pointer}
+.course-card:hover{border-color:var(--green);transform:translateY(-2px)}
+.course-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.pill{font-size:10px;padding:3px 10px;border-radius:99px;font-weight:600;display:inline-block}
+.pill-ai{background:var(--pill-ai-bg);color:var(--pill-ai)}
+.pill-fin{background:var(--pill-fin-bg);color:var(--pill-fin)}
+.pill-re{background:var(--pill-re-bg);color:var(--pill-re)}
+.pill-data{background:var(--pill-data-bg);color:var(--pill-data)}
+.pill-dig{background:var(--pill-dig-bg);color:var(--pill-dig)}
+.pill-ok{background:rgba(45,227,140,0.12);color:var(--green)}
+.pill-plan{background:rgba(245,166,35,0.12);color:#f5a623}
+.course-ar{direction:rtl;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--text);margin-bottom:3px}
+.course-en{font-size:12px;color:var(--text2);margin-bottom:12px}
+.employer-tag{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text3);margin-bottom:10px}
+.employer-dot{width:6px;height:6px;border-radius:50%;background:var(--green)}
+.cta-line{font-size:11px;color:var(--green);font-weight:600}
+.view-all{display:flex;justify-content:center;margin-top:32px}
+
+.employers-section{background:var(--bg2)}
+.emp-logos{display:flex;gap:16px;flex-wrap:wrap;margin-top:40px;justify-content:center}
+.emp-logo{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px 28px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--text2);transition:.2s}
+.emp-logo:hover{border-color:var(--green);color:var(--text)}
+
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px}
+.pricing-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;position:relative;transition:.25s}
+.pricing-card.featured{border-color:var(--green)}
+.featured-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--green);color:#0c0f0e;font-size:11px;font-weight:700;padding:4px 14px;border-radius:99px;font-family:'Syne',sans-serif;white-space:nowrap}
+.price-amount{font-family:'Syne',sans-serif;font-size:36px;font-weight:800;color:var(--text)}
+.price-currency{font-size:16px;font-weight:400;color:var(--text2);vertical-align:super;font-size:14px}
+.price-period{font-size:13px;color:var(--text3);margin-bottom:20px}
+.price-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--text);margin-bottom:6px}
+.price-desc{font-size:13px;color:var(--text2);margin-bottom:20px;line-height:1.6}
+.price-features{list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:24px}
+.price-features li{font-size:13px;color:var(--text2);display:flex;align-items:center;gap:8px}
+.price-features li::before{content:'✓';color:var(--green);font-weight:700;font-size:12px}
+.btn-price{width:100%;padding:10px;font-size:13px;font-family:'Syne',sans-serif;font-weight:600;border-radius:99px;cursor:pointer;transition:.2s}
+.btn-price-outline{background:transparent;border:1px solid var(--border2);color:var(--text)}
+.btn-price-outline:hover{border-color:var(--green);color:var(--green)}
+.btn-price-green{background:var(--green);border:none;color:#0c0f0e}
+.btn-price-green:hover{background:var(--green2)}
+
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:48px 60px;display:flex;justify-content:space-between;align-items:center;flex-wrap:gap}
+.footer-logo{font-family:'Syne',sans-serif;font-size:18px;font-weight:800}
+.footer-logo span{color:var(--green)}
+.footer-text{font-size:12px;color:var(--text3);margin-top:6px}
+.footer-links{display:flex;gap:20px}
+.footer-links a{font-size:13px;color:var(--text3);text-decoration:none;transition:.2s}
+.footer-links a:hover{color:var(--text)}
+
+/* ── AUTH ── */
+.auth-page{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 20px;position:relative}
+.auth-bg-glow{position:fixed;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(45,227,140,0.06) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
+.auth-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:36px;width:100%;max-width:420px;position:relative;z-index:1}
+.auth-back{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text2);cursor:pointer;margin-bottom:24px;width:fit-content;transition:.2s}
+.auth-back:hover{color:var(--green)}
+.auth-logo{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;margin-bottom:6px}
+.auth-logo span{color:var(--green)}
+.auth-title{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:var(--text);margin-bottom:4px}
+.auth-sub{font-size:13px;color:var(--text2);margin-bottom:28px;line-height:1.6}
+.form-group{margin-bottom:16px}
+.form-label{font-size:12px;color:var(--text2);margin-bottom:6px;display:block;font-weight:500}
+.form-input{width:100%;padding:10px 14px;font-size:14px;font-family:'DM Sans',sans-serif;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);color:var(--text);outline:none;transition:.2s}
+.form-input:focus{border-color:var(--green);background:var(--bg2)}
+.form-input::placeholder{color:var(--text3)}
+.form-select{width:100%;padding:10px 14px;font-size:14px;font-family:'DM Sans',sans-serif;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);color:var(--text);outline:none;transition:.2s;-webkit-appearance:none;appearance:none}
+.form-select:focus{border-color:var(--green)}
+.form-select option{background:var(--bg3);color:var(--text)}
+.btn-auth{width:100%;padding:12px;font-size:14px;font-family:'Syne',sans-serif;font-weight:700;border:none;border-radius:99px;background:var(--green);color:#0c0f0e;cursor:pointer;transition:.2s;margin-top:4px;letter-spacing:-.01em}
+.btn-auth:hover{background:var(--green2)}
+.auth-divider{display:flex;align-items:center;gap:12px;margin:18px 0;color:var(--text3);font-size:12px}
+.auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:var(--border)}
+.auth-switch{text-align:center;font-size:13px;color:var(--text2);margin-top:16px}
+.auth-switch a{color:var(--green);cursor:pointer;font-weight:500}
+.auth-error{background:rgba(255,92,92,0.1);border:1px solid rgba(255,92,92,0.3);border-radius:var(--radius-sm);padding:10px 14px;font-size:13px;color:var(--danger);margin-bottom:16px;display:none}
+
+/* ── APP SHELL ── */
+.app-shell{display:flex;height:100vh;overflow:hidden}
+.app-sidebar{width:220px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0}
+.app-sidebar-top{padding:20px 16px 12px}
+.sidebar-logo{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--text)}
+.sidebar-logo span{color:var(--green)}
+.sidebar-user{display:flex;align-items:center;gap:10px;padding:12px 14px;margin-top:8px;background:var(--bg3);border-radius:var(--radius-sm);border:1px solid var(--border)}
+.sidebar-avatar{width:32px;height:32px;border-radius:50%;background:var(--green-dim);border:1px solid var(--green);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--green);flex-shrink:0}
+.sidebar-uname{font-size:13px;font-weight:500;color:var(--text)}
+.sidebar-urole{font-size:10px;color:var(--text3)}
+.sidebar-nav{padding:8px 0;flex:1}
+.nav-section-lbl{font-size:10px;color:var(--text3);padding:10px 16px 4px;text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+.sni{display:flex;align-items:center;gap:10px;padding:9px 16px;font-size:13px;color:var(--text2);cursor:pointer;border-left:2px solid transparent;transition:.15s}
+.sni:hover{background:var(--bg3);color:var(--text)}
+.sni.on{color:var(--green);border-left-color:var(--green);background:rgba(45,227,140,0.06);font-weight:500}
+.sni svg{width:15px;height:15px;flex-shrink:0}
+.sidebar-bottom{padding:12px 16px;border-top:1px solid var(--border)}
+.btn-logout{width:100%;padding:8px;font-size:12px;font-family:'DM Sans',sans-serif;background:transparent;border:1px solid var(--border2);border-radius:99px;color:var(--text2);cursor:pointer;transition:.2s}
+.btn-logout:hover{border-color:var(--danger);color:var(--danger)}
+.app-main{flex:1;overflow-y:auto;background:var(--bg)}
+.app-view{display:none;padding:28px}
+.app-view.on{display:block}
+.vt{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--text);margin-bottom:3px;letter-spacing:-.02em}
+.vs{font-size:13px;color:var(--text2);margin-bottom:22px}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.met{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px}
+.ml{font-size:11px;color:var(--text3);margin-bottom:4px;font-weight:500}
+.mv{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--text)}
+.md{font-size:10px;color:var(--green);margin-top:3px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.icard{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;transition:.2s}
+.icard:hover{border-color:var(--border2)}
+.icard-title{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--text);margin-bottom:10px}
+.pb{height:4px;background:var(--bg3);border-radius:99px;overflow:hidden;margin-bottom:4px}
+.pf{height:100%;border-radius:99px;background:var(--green)}
+.pl{font-size:10px;color:var(--text3);display:flex;justify-content:space-between;margin-top:2px}
+.btn-sm{padding:6px 14px;font-size:12px;font-family:'DM Sans',sans-serif;border-radius:99px;cursor:pointer;transition:.2s}
+.btn-sm-green{background:var(--green);color:#0c0f0e;border:none;font-weight:600}
+.btn-sm-green:hover{background:var(--green2)}
+.btn-sm-outline{background:transparent;color:var(--green);border:1px solid var(--green)}
+.btn-sm-outline:hover{background:var(--green-dim)}
+.btn-full{width:100%;padding:9px;font-size:13px;font-family:'Syne',sans-serif;font-weight:700;border-radius:99px;cursor:pointer;transition:.2s;margin-top:10px}
+.btn-full-green{background:var(--green);color:#0c0f0e;border:none}
+.btn-full-green:hover{background:var(--green2)}
+.btn-full-done{background:var(--bg3);color:var(--text3);border:1px solid var(--border);cursor:default}
+.row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)}
+.row:last-child{border-bottom:none}
+.av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+.av-b{background:var(--pill-ai-bg);color:var(--pill-ai)}
+.av-t{background:var(--pill-fin-bg);color:var(--pill-fin)}
+.av-p{background:var(--pill-data-bg);color:var(--pill-data)}
+.av-a{background:var(--pill-re-bg);color:var(--pill-re)}
+.rn{font-size:13px;font-weight:500;color:var(--text)}
+.rs{font-size:11px;color:var(--text2)}
+.badge-grid{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.badge-c{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;width:130px;text-align:center;transition:.2s}
+.badge-c:hover{border-color:var(--green)}
+.badge-icon{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;font-size:22px}
+.badge-n{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--text);margin-bottom:2px}
+.badge-i{font-size:10px;color:var(--text2);margin-bottom:4px}
+.badge-id{font-size:9px;color:var(--text3);margin-bottom:5px}
+.verify-link{font-size:10px;color:var(--green);cursor:pointer;font-weight:500}
+.lesson-item{display:flex;align-items:center;gap:10px;padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;margin-bottom:6px;transition:.15s}
+.lesson-item:hover{background:var(--bg3);border-color:var(--border2)}
+.lesson-item.done-l{background:var(--bg3);opacity:.7}
+.lesson-num{width:26px;height:26px;border-radius:50%;background:var(--green-dim);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;border:1px solid rgba(45,227,140,0.3)}
+.lesson-num.done-n{background:rgba(45,227,140,0.2);border-color:var(--green)}
+.lesson-t{font-size:13px;color:var(--text);flex:1}
+.lesson-dur{font-size:11px;color:var(--text3)}
+.quiz-block{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-top:14px}
+.quiz-q{font-size:14px;font-weight:500;color:var(--text);margin-bottom:12px}
+.qopt{padding:10px 14px;font-size:13px;border:1px solid var(--border2);border-radius:var(--radius-sm);cursor:pointer;color:var(--text2);background:var(--card);margin-bottom:6px;transition:.15s}
+.qopt:hover{border-color:var(--green);color:var(--text)}
+.qopt.correct{background:rgba(45,227,140,0.1);color:var(--green);border-color:var(--green)}
+.qopt.wrong{background:rgba(255,92,92,0.1);color:var(--danger);border-color:var(--danger)}
+.streak{display:flex;gap:5px;margin-bottom:14px}
+.streak-day{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700}
+.streak-on{background:rgba(45,227,140,0.2);color:var(--green)}
+.streak-off{background:var(--bg3);color:var(--text3)}
+.filter-row{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.filter-select{font-size:12px;padding:7px 12px;background:var(--card);border:1px solid var(--border2);border-radius:99px;color:var(--text);outline:none;font-family:'DM Sans',sans-serif;cursor:pointer}
+.filter-select:focus{border-color:var(--green)}
+.admin-table{width:100%;font-size:12px;border-collapse:collapse}
+.admin-table th{text-align:left;padding:9px 12px;background:var(--bg3);color:var(--text3);font-weight:600;border-bottom:1px solid var(--border);font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+.admin-table td{padding:9px 12px;border-bottom:1px solid var(--border);color:var(--text)}
+.admin-table tr:last-child td{border-bottom:none}
+.admin-table tbody tr:hover{background:var(--bg3)}
+.ar-text{direction:rtl;font-size:13px;color:var(--text)}
+.ar-green{direction:rtl;font-size:11px;color:var(--green)}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--card);border:1px solid var(--green);border-radius:var(--radius);padding:12px 18px;font-size:13px;font-weight:500;color:var(--text);display:none;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,0.4)}
+.toast.err{border-color:var(--danger);color:var(--danger)}
+.hero-sub-ar{direction:rtl;font-size:15px;color:var(--text2);margin-top:4px;font-weight:300}
+.section-ar{direction:rtl;font-size:14px;color:var(--text2);margin-top:6px;line-height:1.7}
+.divider{width:40px;height:3px;background:var(--green);border-radius:99px;margin:16px 0}
+</style>
+</head>
+<body>
+
+<!-- ═══ LANDING PAGE ═══ -->
+<div id="page-landing" class="page active">
+  <nav>
+    <div class="nav-logo">Riyadh<span>Skills</span></div>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#courses">Courses</a>
+      <a href="#employers">Employers</a>
+      <a href="#pricing">Pricing</a>
+    </div>
+    <div class="nav-actions">
+      <button class="btn-ghost" onclick="showAuth('login')">Sign in</button>
+      <button class="btn-green" onclick="showAuth('signup')">Get started</button>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-content">
+      <div class="hero-badge"><span class="hero-badge-dot"></span>Vision 2030 — Riyadh, Saudi Arabia</div>
+      <h1>
+        Build your future.<br>
+        <span class="ar-headline">ابنِ مستقبلك معنا</span>
+      </h1>
+      <p>Arabic-first micro-certifications connecting Riyadh youth with employer-endorsed digital skills for Vision 2030 sectors.</p>
+      <p class="hero-sub-ar">منصة المهارات الرقمية الأولى في الرياض للشباب السعودي</p>
+      <div class="hero-ctas">
+        <button class="btn-hero btn-hero-primary" onclick="showAuth('signup')">Start learning free</button>
+        <button class="btn-hero btn-hero-secondary" onclick="scrollTo('courses')">Browse courses</button>
+      </div>
+      <div class="hero-stats">
+        <div><div class="stat-val">12,430+</div><div class="stat-lbl">Active learners</div></div>
+        <div><div class="stat-val">34</div><div class="stat-lbl">Employer partners</div></div>
+        <div><div class="stat-val">8,940</div><div class="stat-lbl">Badges issued</div></div>
+        <div><div class="stat-val">67%</div><div class="stat-lbl">Completion rate</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="features">
+    <div class="section-label">Why Riyadh Skills</div>
+    <div class="section-title">Designed for Saudi youth</div>
+    <div class="divider"></div>
+    <div class="section-sub">Every feature built around the needs of Riyadh's next generation workforce and the demands of Vision 2030 employers.</div>
+    <div class="section-ar">كل ميزة مصممة حول احتياجات جيل الشباب السعودي</div>
+    <div class="benefits-grid" id="features">
+      <div class="benefit-card"><div class="benefit-icon-wrap">📚</div><div class="benefit-title">Arabic-first content</div><div class="benefit-ar">محتوى عربي أولاً</div><div class="benefit-desc">All courses delivered in Arabic with RTL-native design. No translation gaps.</div></div>
+      <div class="benefit-card"><div class="benefit-icon-wrap">🏅</div><div class="benefit-title">Verifiable badges</div><div class="benefit-ar">شهادات موثوقة</div><div class="benefit-desc">Open Badges & xAPI standards. Every credential has a unique verification URL.</div></div>
+      <div class="benefit-card"><div class="benefit-icon-wrap">🏢</div><div class="benefit-title">Employer-endorsed</div><div class="benefit-ar">اعتراف أصحاب العمل</div><div class="benefit-desc">Certifications co-developed with STC, SDAIA, ACWA Power, and Riyad Bank.</div></div>
+      <div class="benefit-card"><div class="benefit-icon-wrap">🎯</div><div class="benefit-title">Vision 2030 aligned</div><div class="benefit-ar">مسارات رؤية ٢٠٣٠</div><div class="benefit-desc">AI, fintech, and renewable energy tracks mapped directly to national hiring needs.</div></div>
+    </div>
+  </section>
+
+  <section class="section" id="courses" style="background:var(--bg2);padding:80px 60px">
+    <div class="section-label">Course catalog</div>
+    <div class="section-title">Learn what employers need</div>
+    <div class="divider"></div>
+    <div class="section-sub">Short, focused micro-certifications starting at SAR 99. Employer-targeted accreditation on every track.</div>
+    <div class="courses-grid">
+      <div class="course-card" onclick="showAuth('signup')"><div class="course-top"><span class="pill pill-ai">AI</span><span style="font-size:10px;color:var(--text3)">Beginner · 20h</span></div><div class="course-ar">أساسيات الذكاء الاصطناعي</div><div class="course-en">AI Fundamentals</div><div class="employer-tag"><span class="employer-dot"></span>STC Academy</div><span class="pill pill-ok" style="font-size:10px">Badge available</span><div class="cta-line" style="margin-top:10px">Enroll for SAR 99 →</div></div>
+      <div class="course-card" onclick="showAuth('signup')"><div class="course-top"><span class="pill pill-fin">Fintech</span><span style="font-size:10px;color:var(--text3)">Beginner · 15h</span></div><div class="course-ar">مقدمة في الخدمات المصرفية الرقمية</div><div class="course-en">Digital Banking</div><div class="employer-tag"><span class="employer-dot"></span>Riyad Bank</div><span class="pill pill-ok" style="font-size:10px">Badge available</span><div class="cta-line" style="margin-top:10px">Enroll for SAR 99 →</div></div>
+      <div class="course-card" onclick="showAuth('signup')"><div class="course-top"><span class="pill pill-re">Renewable</span><span style="font-size:10px;color:var(--text3)">Intermediate · 25h</span></div><div class="course-ar">أنظمة الطاقة الشمسية</div><div class="course-en">Solar Energy Systems</div><div class="employer-tag"><span class="employer-dot"></span>ACWA Power</div><span class="pill pill-ok" style="font-size:10px">Badge available</span><div class="cta-line" style="margin-top:10px">Enroll for SAR 99 →</div></div>
+      <div class="course-card" onclick="showAuth('signup')"><div class="course-top"><span class="pill pill-data">Data</span><span style="font-size:10px;color:var(--text3)">Intermediate · 22h</span></div><div class="course-ar">تحليل البيانات بالبايثون</div><div class="course-en">Data Analytics with Python</div><div class="employer-tag"><span class="employer-dot"></span>SDAIA</div><span class="pill pill-ok" style="font-size:10px">Badge available</span><div class="cta-line" style="margin-top:10px">Enroll for SAR 99 →</div></div>
+      <div class="course-card" onclick="showAuth('signup')"><div class="course-top"><span class="pill pill-ai">AI</span><span style="font-size:10px;color:var(--text3)">Beginner · 12h</span></div><div class="course-ar">الذكاء الاصطناعي لقيادة الأعمال</div><div class="course-en">AI for Business Leaders</div><div class="employer-tag"><span class="employer-dot"></span>Aramco Digital</div><span class="pill pill-ok" style="font-size:10px">Badge available</span><div class="cta-line" style="margin-top:10px">Enroll for SAR 99 →</div></div>
+      <div class="course-card" onclick="showAuth('signup')"><div class="course-top"><span class="pill pill-dig">Digital</span><span style="font-size:10px;color:var(--text3)">Beginner · 10h</span></div><div class="course-ar">أساسيات المهارات الرقمية</div><div class="course-en">Digital Literacy</div><div class="employer-tag"><span class="employer-dot"></span>STC</div><span class="pill pill-plan" style="font-size:10px">Accreditation: targeted</span><div class="cta-line" style="margin-top:10px">Enroll for SAR 99 →</div></div>
+    </div>
+    <div class="view-all"><button class="btn-hero btn-hero-secondary" onclick="showAuth('signup')">View full catalog →</button></div>
+  </section>
+
+  <section class="section" id="employers">
+    <div class="section-label">Our employer partners</div>
+    <div class="section-title">Trusted by Riyadh's leading companies</div>
+    <div class="divider"></div>
+    <div class="section-sub">Co-developed certifications that map directly to real hiring pipelines across AI, fintech, and renewable energy.</div>
+    <div class="emp-logos">
+      <div class="emp-logo">STC</div>
+      <div class="emp-logo">Riyad Bank</div>
+      <div class="emp-logo">Al Rajhi Bank</div>
+      <div class="emp-logo">SNB</div>
+      <div class="emp-logo">ACWA Power</div>
+      <div class="emp-logo">Aramco Digital</div>
+      <div class="emp-logo">SDAIA</div>
+      <div class="emp-logo">Bupa Arabia</div>
+    </div>
+    <div style="text-align:center;margin-top:36px">
+      <button class="btn-hero btn-hero-secondary" onclick="showAuth('signup','employer')">Partner with us →</button>
+    </div>
+  </section>
+
+  <section class="section" id="pricing" style="background:var(--bg2);padding:80px 60px">
+    <div class="section-label">Pricing</div>
+    <div class="section-title">Affordable for every learner</div>
+    <div class="divider"></div>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <div class="price-title">Per course</div>
+        <div style="margin-bottom:4px"><span class="price-currency">SAR </span><span class="price-amount">99</span></div>
+        <div class="price-period">one-time payment</div>
+        <div class="price-desc">Perfect for learners targeting one specific skill or certification.</div>
+        <ul class="price-features"><li>1 micro-certification</li><li>Arabic content</li><li>Verifiable badge</li><li>Employer-endorsed credential</li></ul>
+        <button class="btn-price btn-price-outline" onclick="showAuth('signup')">Get started</button>
+      </div>
+      <div class="pricing-card featured">
+        <div class="featured-badge">Most popular</div>
+        <div class="price-title">Unlimited monthly</div>
+        <div style="margin-bottom:4px"><span class="price-currency">SAR </span><span class="price-amount">249</span></div>
+        <div class="price-period">per month</div>
+        <div class="price-desc">Unlimited access to the full catalog with mentorship included.</div>
+        <ul class="price-features"><li>All courses & certifications</li><li>1 mentor session / month</li><li>Learning streak tracker</li><li>Priority employer matching</li><li>All verifiable badges</li></ul>
+        <button class="btn-price btn-price-green" onclick="showAuth('signup')">Start free trial</button>
+      </div>
+      <div class="pricing-card">
+        <div class="price-title">Employer partner</div>
+        <div style="margin-bottom:4px"><span class="price-currency">SAR </span><span class="price-amount">10k</span></div>
+        <div class="price-period">per year</div>
+        <div class="price-desc">Co-brand certifications and access your certified talent pipeline.</div>
+        <ul class="price-features"><li>Co-branded courses</li><li>Certified talent pool access</li><li>Job posting portal</li><li>Analytics dashboard</li><li>80% renewal rate</li></ul>
+        <button class="btn-price btn-price-outline" onclick="showAuth('signup','employer')">Become a partner</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div>
+      <div class="footer-logo">Riyadh<span>Skills</span></div>
+      <div style="direction:rtl;font-family:'Syne',sans-serif;font-size:14px;font-weight:600;color:var(--text3);margin-top:2px">منصة رياضة المهارات</div>
+      <div class="footer-text" style="margin-top:8px">© 2025 Riyadh Skills. Vision 2030 aligned. Riyadh, Saudi Arabia.</div>
+    </div>
+    <div class="footer-links">
+      <a href="#">About</a>
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Contact</a>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══ AUTH PAGE ═══ -->
+<div id="page-auth" class="page">
+  <div class="auth-page">
+    <div class="auth-bg-glow"></div>
+    <div class="auth-card">
+      <div class="auth-back" onclick="showLanding()">← Back to home</div>
+      <div class="auth-logo">Riyadh<span>Skills</span></div>
+      <div class="auth-title" id="auth-title">Welcome back</div>
+      <div class="auth-sub" id="auth-sub">Sign in to continue your learning journey.</div>
+      <div class="auth-error" id="auth-error"></div>
+      <div class="form-group" id="fg-name" style="display:none">
+        <label class="form-label">Full name</label>
+        <input class="form-input" type="text" id="inp-name" placeholder="Sara Al-Otaibi"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email address</label>
+        <input class="form-input" type="email" id="inp-email" placeholder="you@example.com"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input class="form-input" type="password" id="inp-pass" placeholder="••••••••"/>
+      </div>
+      <div class="form-group" id="fg-role" style="display:none">
+        <label class="form-label">I am a</label>
+        <select class="form-select" id="inp-role">
+          <option value="learner">Learner — يريد تطوير مهاراته</option>
+          <option value="employer">Employer — يبحث عن كفاءات</option>
+          <option value="admin">Admin</option>
+        </select>
+      </div>
+      <button class="btn-auth" id="auth-submit-btn" onclick="doAuth()">Sign in</button>
+      <div class="auth-divider">or try a demo account</div>
+      <div style="display:flex;gap:8px">
+        <button class="btn-ghost" style="flex:1;font-size:12px" onclick="demoLogin('learner')">Learner demo</button>
+        <button class="btn-ghost" style="flex:1;font-size:12px" onclick="demoLogin('employer')">Employer demo</button>
+        <button class="btn-ghost" style="flex:1;font-size:12px" onclick="demoLogin('admin')">Admin demo</button>
+      </div>
+      <div class="auth-switch" id="auth-switch">
+        Don't have an account? <a onclick="toggleAuth()">Sign up free</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ APP SHELL ═══ -->
+<div id="page-app" class="page">
+  <div class="app-shell">
+    <div class="app-sidebar">
+      <div class="app-sidebar-top">
+        <div class="sidebar-logo">Riyadh<span>Skills</span></div>
+        <div class="sidebar-user">
+          <div class="sidebar-avatar" id="sb-avatar">SA</div>
+          <div>
+            <div class="sidebar-uname" id="sb-name">Sara Al-Otaibi</div>
+            <div class="sidebar-urole" id="sb-role">Learner</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-nav" id="sidebar-nav"></div>
+
+      <div class="sidebar-bottom">
+        <button class="btn-logout" onclick="doLogout()">Sign out</button>
+      </div>
+    </div>
+
+    <div class="app-main" id="app-main"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let currentRole = 'learner';
+let currentUser = {};
+let authMode = 'login';
+let quizAnswered = false;
+
+const courses = [
+  {id:1,title:'أساسيات الذكاء الاصطناعي',en:'AI Fundamentals',sector:'AI',employer:'STC Academy',hours:20,diff:'Beginner',badge:true,progress:78,enrolled:true,price:99},
+  {id:2,title:'مقدمة في الخدمات المصرفية الرقمية',en:'Digital Banking',sector:'Fintech',employer:'Riyad Bank',hours:15,diff:'Beginner',badge:true,progress:45,enrolled:true,price:99},
+  {id:3,title:'أنظمة الطاقة الشمسية',en:'Solar Energy Systems',sector:'Renewable',employer:'ACWA Power',hours:25,diff:'Intermediate',badge:true,progress:20,enrolled:true,price:99},
+  {id:4,title:'تحليل البيانات بالبايثون',en:'Data Analytics with Python',sector:'Data',employer:'SDAIA',hours:22,diff:'Intermediate',badge:true,progress:0,enrolled:false,price:99},
+  {id:5,title:'الذكاء الاصطناعي لقيادة الأعمال',en:'AI for Business Leaders',sector:'AI',employer:'Aramco Digital',hours:12,diff:'Beginner',badge:true,progress:0,enrolled:false,price:99},
+  {id:6,title:'أساسيات المهارات الرقمية',en:'Digital Literacy',sector:'Digital',employer:'STC',hours:10,diff:'Beginner',badge:false,progress:0,enrolled:false,price:99},
+];
+const lessons = [
+  {title:'ما هو الذكاء الاصطناعي؟',dur:'8 min',done:true},
+  {title:'تعلم الآلة: المفاهيم الأساسية',dur:'12 min',done:true},
+  {title:'التعلم العميق والشبكات العصبية',dur:'15 min',done:false,active:true},
+  {title:'تطبيقات الذكاء الاصطناعي في السعودية',dur:'10 min',done:false},
+];
+const badgesData = [
+  {id:'RYD-ML-001',name:'ML Foundations',issuer:'STC Academy',icon:'🤖',color:'rgba(91,191,255,0.15)',issued:'Jan 2025',verify:'Verified by STC Academy'},
+  {id:'RYD-PE-002',name:'Prompt Engineering',issuer:'Aramco Digital',icon:'⚡',color:'rgba(181,123,255,0.15)',issued:'Nov 2024',verify:'Verified by Aramco Digital'},
+];
+const mentors = [
+  {name:'Ahmad Al-Rashidi',role:'AI Lead, STC',av:'AR',avc:'av-b',tags:['AI','ML'],next:'Wed 10am'},
+  {name:'Noura Al-Sayed',role:'Fintech Director, Stc pay',av:'NS',avc:'av-t',tags:['Fintech','Payments'],next:'Thu 2pm'},
+  {name:'Khalid Ibrahim',role:'Renewable Eng., ACWA',av:'KI',avc:'av-a',tags:['Solar','Renewable'],next:'Fri 11am'},
+  {name:'Reem Al-Dossari',role:'Data Scientist, SDAIA',av:'RD',avc:'av-p',tags:['Data','Python'],next:'Mon 9am'},
+];
+const candidates = [
+  {name:'Omar Khalil',cert:'ML Fundamentals',score:'96%',av:'OK',avc:'av-b',cat:'ML'},
+  {name:'Lina Badr',cert:'Digital Banking',score:'91%',av:'LB',avc:'av-t',cat:'Digital'},
+  {name:'Faris Al-Otaibi',cert:'Data Analytics',score:'88%',av:'FA',avc:'av-p',cat:'Data'},
+  {name:'Hana Murad',cert:'ML Fundamentals',score:'85%',av:'HM',avc:'av-a',cat:'ML'},
+  {name:'Salma Qureshi',cert:'Digital Banking',score:'82%',av:'SQ',avc:'av-b',cat:'Digital'},
+];
+const trends = [
+  {name:'Generative AI',pct:92,color:'#5bbfff'},
+  {name:'Cybersecurity',pct:85,color:'#b57bff'},
+  {name:'Data Engineering',pct:78,color:'var(--green)'},
+  {name:'Fintech Compliance',pct:71,color:'#7de05a'},
+  {name:'Cloud Architecture',pct:65,color:'#f5a623'},
+];
+const employers_data = [
+  {name:'STC',industry:'Telecom/AI',courses:4,status:'Active'},
+  {name:'Riyad Bank',industry:'Fintech',courses:2,status:'Active'},
+  {name:'ACWA Power',industry:'Renewable',courses:1,status:'Active'},
+  {name:'SDAIA',industry:'Data/Gov',courses:3,status:'Active'},
+  {name:'Aramco Digital',industry:'AI/Tech',courses:2,status:'Onboarding'},
+];
+const quiz = {
+  q:'What is the primary goal of supervised learning?',
+  opts:['Learn from unlabeled data','Learn from labeled input-output pairs','Generate new content','Optimize hardware performance'],
+  correct:1
+};
+const sMap = {AI:'pill-ai',Fintech:'pill-fin',Renewable:'pill-re',Data:'pill-data',Digital:'pill-dig'};
+
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  window.scrollTo(0,0);
+}
+function showLanding(){showPage('landing');}
+function showAuth(mode,role){
+  authMode = mode||'login';
+  renderAuthForm();
+  if(role) document.getElementById('inp-role').value=role;
+  showPage('auth');
+}
+function toggleAuth(){
+  authMode = authMode==='login'?'signup':'login';
+  renderAuthForm();
+}
+function renderAuthForm(){
+  document.getElementById('auth-title').textContent = authMode==='login'?'Welcome back':'Create your account';
+  document.getElementById('auth-sub').textContent = authMode==='login'?'Sign in to continue your learning journey.':'Join Riyadh Skills and start building job-ready skills today.';
+  document.getElementById('auth-submit-btn').textContent = authMode==='login'?'Sign in':'Create account';
+  document.getElementById('fg-name').style.display = authMode==='signup'?'block':'none';
+  document.getElementById('fg-role').style.display = authMode==='signup'?'block':'none';
+  document.getElementById('auth-switch').innerHTML = authMode==='login'?"Don't have an account? <a onclick='toggleAuth()'>Sign up free</a>":"Already have an account? <a onclick='toggleAuth()'>Sign in</a>";
+  document.getElementById('auth-error').style.display='none';
+}
+function doAuth(){
+  const email = document.getElementById('inp-email').value.trim();
+  const pass = document.getElementById('inp-pass').value;
+  const err = document.getElementById('auth-error');
+  if(!email || !pass){err.textContent='Please fill in all required fields.';err.style.display='block';return;}
+  err.style.display='none';
+  let role = 'learner';
+  let name = 'Sara Al-Otaibi';
+  if(authMode==='signup'){
+    name = document.getElementById('inp-name').value.trim()||name;
+    role = document.getElementById('inp-role').value;
+  }
+  loginUser({name,email,role});
+}
+function demoLogin(role){
+  const demos = {
+    learner:{name:'Sara Al-Otaibi',email:'sara@example.com',role:'learner'},
+    employer:{name:'Ahmad Al-Rashidi',email:'ahmad@stc.com',role:'employer'},
+    admin:{name:'Platform Admin',email:'admin@riyadhskills.sa',role:'admin'},
+  };
+  loginUser(demos[role]);
+}
+function loginUser(user){
+  currentUser = user;
+  currentRole = user.role;
+  document.getElementById('sb-name').textContent = user.name;
+  document.getElementById('sb-role').textContent = user.role.charAt(0).toUpperCase()+user.role.slice(1);
+  document.getElementById('sb-avatar').textContent = user.name.split(' ').map(n=>n[0]).slice(0,2).join('');
+  buildSidebar();
+  buildAppViews();
+  showPage('app');
+  showToast('Welcome back, '+user.name.split(' ')[0]+'! 👋');
+}
+function doLogout(){
+  showLanding();
+  showToast('Signed out successfully.');
+}
+
+function buildSidebar(){
+  const nav = document.getElementById('sidebar-nav');
+  const navDefs = {
+    learner:[
+      {id:'home',label:'Home',icon:'<path d="M1 8L8 2l7 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M3 7v6h4v-3h2v3h4V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>'},
+      {id:'dashboard',label:'Dashboard',icon:'<rect x="1" y="1" width="6" height="6" rx="1" fill="currentColor"/><rect x="9" y="1" width="6" height="6" rx="1" fill="currentColor" opacity=".4"/><rect x="1" y="9" width="6" height="6" rx="1" fill="currentColor" opacity=".4"/><rect x="9" y="9" width="6" height="6" rx="1" fill="currentColor"/>'},
+      {id:'catalog',label:'Courses',icon:'<path d="M2 3h12M2 6h9M2 9h11M2 12h7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>'},
+      {id:'lesson',label:'Lesson player',icon:'<polygon points="3,2 13,8 3,14" fill="currentColor" opacity=".7"/>'},
+      {id:'badges',label:'My badges',icon:'<circle cx="8" cy="6" r="4" stroke="currentColor" stroke-width="1.5"/><path d="M5 10l-2 5 5-2 5 2-2-5" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>'},
+      {id:'mentorship',label:'Mentorship',icon:'<circle cx="6" cy="5" r="3" stroke="currentColor" stroke-width="1.5"/><circle cx="11" cy="7" r="2" stroke="currentColor" stroke-width="1.5"/><path d="M1 14c0-2.76 2.24-5 5-5s5 2.24 5 5" stroke="currentColor" stroke-width="1.5"/><path d="M11 12c1.66 0 3 1.34 3 3" stroke="currentColor" stroke-width="1.5"/>'},
+    ],
+    employer:[
+      {id:'employer',label:'Portal',icon:'<rect x="2" y="5" width="12" height="9" rx="1" stroke="currentColor" stroke-width="1.5"/><path d="M5 5V3a3 3 0 016 0v2" stroke="currentColor" stroke-width="1.5"/>'},
+      {id:'candidates',label:'Talent pool',icon:'<circle cx="8" cy="6" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M2 14c0-3.31 2.69-6 6-6s6 2.69 6 6" stroke="currentColor" stroke-width="1.5"/>'},
+      {id:'jobpost',label:'Post a job',icon:'<rect x="2" y="2" width="12" height="12" rx="1" stroke="currentColor" stroke-width="1.5"/><path d="M8 5v6M5 8h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>'},
+    ],
+    admin:[
+      {id:'admin',label:'Overview',icon:'<path d="M2 12l3-4 3 2 3-5 3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>'},
+      {id:'manage-courses',label:'Manage courses',icon:'<path d="M2 3h12M2 6h9M2 9h11M2 12h7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>'},
+      {id:'manage-employers',label:'Employers',icon:'<rect x="2" y="5" width="12" height="9" rx="1" stroke="currentColor" stroke-width="1.5"/><path d="M5 5V3a3 3 0 016 0v2" stroke="currentColor" stroke-width="1.5"/>'},
+    ],
+  };
+  const items = navDefs[currentRole]||navDefs.learner;
+  const sectionLabel = {learner:'Learner',employer:'Employer',admin:'Admin'}[currentRole];
+  nav.innerHTML = `<div class="nav-section-lbl">${sectionLabel}</div>` + items.map((item,i)=>`
+    <div class="sni ${i===0?'on':''}" onclick="goView('${item.id}',this)">
+      <svg viewBox="0 0 16 16" fill="none">${item.icon}</svg>${item.label}
+    </div>`).join('');
+}
+
+function goView(id,el){
+  document.querySelectorAll('.app-view').forEach(v=>v.classList.remove('on'));
+  document.querySelectorAll('.sni').forEach(n=>n.classList.remove('on'));
+  const v=document.getElementById('av-'+id);
+  if(v)v.classList.add('on');
+  if(el)el.classList.add('on');
+}
+
+function buildAppViews(){
+  const main = document.getElementById('app-main');
+  main.innerHTML = '';
+  if(currentRole==='learner'){
+    main.innerHTML = buildLearnerViews();
+    renderDashCourses();
+    renderCatalog();
+    renderLessons();
+    renderBadges();
+    renderMentors();
+    renderStreak();
+  } else if(currentRole==='employer'){
+    main.innerHTML = buildEmployerViews();
+    renderEmpCourses();
+    renderCandidates();
+  } else {
+    main.innerHTML = buildAdminViews();
+    renderAdminTrends();
+    renderAdminTables();
+  }
+}
+
+function buildLearnerViews(){
+  return `
+  <div id="av-home" class="app-view on">
+    <div class="vt">مرحباً، ${currentUser.name.split(' ')[0]}</div>
+    <div class="vs">Welcome back — you're on track. Keep building.</div>
+    <div class="sec" style="font-size:12px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Learning streak</div>
+    <div class="streak" id="streak-days"></div>
+    <div class="metrics">
+      <div class="met"><div class="ml">Enrolled</div><div class="mv">3</div><div class="md">↑ 1 this month</div></div>
+      <div class="met"><div class="ml">Badges</div><div class="mv">2</div><div class="md">+1 pending</div></div>
+      <div class="met"><div class="ml">Avg. progress</div><div class="mv">61%</div><div class="md">↑ 12% this week</div></div>
+      <div class="met"><div class="ml">Streak</div><div class="mv">7d</div><div class="md">Personal best</div></div>
+    </div>
+    <div style="font-size:12px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px">Active courses</div>
+    <div class="grid3" id="dash-courses"></div>
+    <div style="font-size:12px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin:18px 0 10px">Recommended next</div>
+    <div class="icard" style="display:flex;align-items:center;gap:14px">
+      <div style="width:42px;height:42px;border-radius:10px;background:var(--pill-data-bg);display:flex;align-items:center;justify-content:center;font-size:20px">🤖</div>
+      <div style="flex:1"><div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--text)">AI for Business Leaders</div><div style="font-size:12px;color:var(--text2);margin-top:2px">Aramco Digital · 12h · Beginner</div></div>
+      <button class="btn-sm btn-sm-outline" onclick="showToast('Enrolled in AI for Business Leaders!')">Enroll</button>
+    </div>
+  </div>
+
+  <div id="av-dashboard" class="app-view">
+    <div class="vt">Dashboard</div>
+    <div class="vs">Your full learning profile and certification progress.</div>
+    <div class="metrics">
+      <div class="met"><div class="ml">Enrolled</div><div class="mv">3</div><div class="md">↑ 1 this month</div></div>
+      <div class="met"><div class="ml">Badges earned</div><div class="mv">2</div><div class="md">+1 pending</div></div>
+      <div class="met"><div class="ml">Avg. progress</div><div class="mv">61%</div><div class="md">↑ 12% this week</div></div>
+      <div class="met"><div class="ml">Mentor sessions</div><div class="mv">4</div><div class="md">Next: Wed 10am</div></div>
+    </div>
+    <div style="font-size:12px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px">All enrolled courses</div>
+    <div class="grid3" id="dash-courses-2"></div>
+  </div>
+
+  <div id="av-catalog" class="app-view">
+    <div class="vt">Course catalog</div>
+    <div class="vs">Arabic micro-certifications · SAR 99 per course · Employer-targeted accreditation.</div>
+    <div class="filter-row">
+      <select class="filter-select" id="cf-sector" onchange="renderCatalog()"><option value="">All sectors</option><option>AI</option><option>Fintech</option><option>Renewable</option><option>Data</option><option>Digital</option></select>
+      <select class="filter-select" id="cf-diff" onchange="renderCatalog()"><option value="">All levels</option><option>Beginner</option><option>Intermediate</option></select>
+      <select class="filter-select" id="cf-badge" onchange="renderCatalog()"><option value="">Any badge</option><option value="yes">Badge available</option></select>
+    </div>
+    <div class="grid3" id="catalog-list"></div>
+  </div>
+
+  <div id="av-lesson" class="app-view">
+    <div class="vt">أساسيات الذكاء الاصطناعي</div>
+    <div class="vs">AI Fundamentals · Module 2 of 4 · STC Academy</div>
+    <div style="display:flex;gap:10px;align-items:center;margin-bottom:16px">
+      <div style="flex:1"><div class="pb" style="height:6px"><div class="pf" id="lp-bar" style="width:45%"></div></div></div>
+      <div style="font-size:12px;color:var(--text3)" id="lp-pct">45%</div>
+    </div>
+    <div id="lesson-list"></div>
+    <div class="quiz-block" id="quiz-block" style="display:none">
+      <div class="quiz-q" id="quiz-q"></div>
+      <div id="quiz-opts"></div>
+      <div id="quiz-fb" style="font-size:12px;margin-top:8px;display:none"></div>
+    </div>
+    <div id="lesson-complete" style="display:none;margin-top:16px">
+      <div class="icard" style="text-align:center;padding:24px">
+        <div style="font-size:36px;margin-bottom:10px">🏅</div>
+        <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--text);margin-bottom:6px">Module complete!</div>
+        <div style="font-size:13px;color:var(--text2);margin-bottom:16px">You've earned the AI Fundamentals Module 2 badge. تهانينا!</div>
+        <button class="btn-sm btn-sm-green" onclick="goView('badges',document.querySelector('.sni:nth-child(5)'))">View badge</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="av-badges" class="app-view">
+    <div class="vt">My badges</div>
+    <div class="vs">Verified credentials · Open Badges & xAPI · Employer-targeted accreditation.</div>
+    <div class="badge-grid" id="badge-list"></div>
+    <div style="font-size:12px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Verify a badge by ID</div>
+    <div class="icard" style="display:flex;gap:10px;align-items:center;margin-bottom:16px">
+      <input id="verify-input" placeholder="Enter badge ID e.g. RYD-ML-001" style="flex:1;padding:9px 12px;font-size:13px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);color:var(--text);outline:none;font-family:'DM Sans',sans-serif"/>
+      <button class="btn-sm btn-sm-outline" onclick="verifyBadge()">Verify</button>
+    </div>
+    <div id="verify-result"></div>
+    <div style="font-size:12px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">In progress</div>
+    <div class="icard">
+      <div class="row"><div style="width:32px;height:32px;border-radius:50%;background:rgba(125,224,90,0.15);display:flex;align-items:center;justify-content:center;font-size:16px">🌱</div><div style="flex:1"><div class="rn">Digital Banking Pro</div><div class="rs">45% complete</div></div><span class="pill pill-plan">In progress</span></div>
+      <div class="row"><div style="width:32px;height:32px;border-radius:50%;background:rgba(245,166,35,0.15);display:flex;align-items:center;justify-content:center;font-size:16px">☀️</div><div style="flex:1"><div class="rn">Solar Systems Specialist</div><div class="rs">20% complete</div></div><span class="pill pill-plan">In progress</span></div>
+    </div>
+  </div>
+
+  <div id="av-mentorship" class="app-view">
+    <div class="vt">Mentorship</div>
+    <div class="vs">Connect with Vision 2030 professionals for guided career development.</div>
+    <div style="display:flex;flex-direction:column;gap:12px" id="mentor-list"></div>
+  </div>`;
+}
+
+function buildEmployerViews(){
+  return `
+  <div id="av-employer" class="app-view on">
+    <div class="vt">Employer portal — STC</div>
+    <div class="vs">Manage co-branded courses, access certified talent, and track your hiring pipeline.</div>
+    <div class="metrics">
+      <div class="met"><div class="ml">Co-branded courses</div><div class="mv">4</div><div class="md">+1 this quarter</div></div>
+      <div class="met"><div class="ml">Certified candidates</div><div class="mv">312</div><div class="md">↑ 18% MoM</div></div>
+      <div class="met"><div class="ml">Active jobs</div><div class="mv">6</div><div class="md">2 closing soon</div></div>
+      <div class="met"><div class="ml">Endorsement</div><div class="mv" style="font-size:15px">Targeted</div><div class="md">Accreditation: planned</div></div>
+    </div>
+    <div style="font-size:12px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Co-branded courses</div>
+    <div class="icard" id="emp-courses"></div>
+  </div>
+
+  <div id="av-candidates" class="app-view">
+    <div class="vt">Talent pool</div>
+    <div class="vs">Certified learners ready for hiring. Filter by certification.</div>
+    <div class="filter-row">
+      <select class="filter-select" id="cand-filter" onchange="renderCandidates()"><option value="">All certifications</option><option value="ML">ML Fundamentals</option><option value="Digital">Digital Banking</option><option value="Data">Data Analytics</option></select>
+    </div>
+    <div class="icard" id="cand-list"></div>
+  </div>
+
+  <div id="av-jobpost" class="app-view">
+    <div class="vt">Post a job</div>
+    <div class="vs">Target certified Riyadh Skills learners for your open roles.</div>
+    <div class="grid2">
+      <div class="icard">
+        <div class="icard-title">New job opening</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div><label class="form-label">Job title</label><input id="jt" class="form-input" placeholder="e.g. Data Analyst"/></div>
+          <div><label class="form-label">Sector</label><select id="js" class="form-select"><option value="">Select sector</option><option>AI</option><option>Fintech</option><option>Renewable Energy</option><option>Data</option></select></div>
+          <div><label class="form-label">Required certification</label><input id="jc" class="form-input" placeholder="e.g. ML Fundamentals"/></div>
+          <div><label class="form-label">Location</label><input id="jl" class="form-input" placeholder="Riyadh, Saudi Arabia"/></div>
+          <div><label class="form-label">Salary range (SAR)</label><input id="jsal" class="form-input" placeholder="8,000 – 12,000 / month"/></div>
+          <button class="btn-full btn-full-green" onclick="postJob()">Post opening</button>
+        </div>
+      </div>
+      <div class="icard">
+        <div class="icard-title">Active postings</div>
+        <div id="job-list">
+          <div class="row"><div style="flex:1"><div class="rn">ML Engineer</div><div class="rs">STC · AI · Riyadh · SAR 10,000–14,000</div></div><span class="pill pill-ok">Active</span></div>
+          <div class="row"><div style="flex:1"><div class="rn">Fintech Analyst</div><div class="rs">Saudi Fintech · Riyadh · SAR 8,000–11,000</div></div><span class="pill pill-ok">Active</span></div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function buildAdminViews(){
+  return `
+  <div id="av-admin" class="app-view on">
+    <div class="vt">Platform overview</div>
+    <div class="vs">Real-time analytics — enrollments, completions, and badge issuance.</div>
+    <div class="metrics">
+      <div class="met"><div class="ml">Total learners</div><div class="mv">12,430</div><div class="md">↑ 18% MoM</div></div>
+      <div class="met"><div class="ml">Enrollments</div><div class="mv">31,200</div><div class="md">↑ 9% WoW</div></div>
+      <div class="met"><div class="ml">Completion rate</div><div class="mv">67%</div><div class="md">↑ 5pp vs Q3</div></div>
+      <div class="met"><div class="ml">Badges issued</div><div class="mv">8,940</div><div class="md">↑ 22% MoM</div></div>
+    </div>
+    <div style="font-size:12px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Top skills in demand</div>
+    <div class="icard" id="admin-trends"></div>
+  </div>
+  <div id="av-manage-courses" class="app-view">
+    <div class="vt">Manage courses</div>
+    <div class="vs">Add, edit, or archive micro-certification tracks.</div>
+    <div style="display:flex;justify-content:flex-end;margin-bottom:12px"><button class="btn-sm btn-sm-outline" onclick="showToast('Course creation form — coming soon!')">+ Add course</button></div>
+    <div class="icard" style="overflow-x:auto"><table class="admin-table" id="admin-course-table"></table></div>
+  </div>
+  <div id="av-manage-employers" class="app-view">
+    <div class="vt">Employer partners</div>
+    <div class="vs">Manage partnerships, endorsements, and co-branding agreements.</div>
+    <div class="icard" style="overflow-x:auto"><table class="admin-table" id="admin-emp-table"></table></div>
+  </div>`;
+}
+
+function courseCard(c, showProgress){
+  const sc = sMap[c.sector]||'pill-ai';
+  return `<div class="icard" style="cursor:pointer">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+      <span class="pill ${sc}">${c.sector}</span>
+      <span style="font-size:10px;color:var(--text3)">${c.diff}</span>
+    </div>
+    <div class="ar-text" style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;margin-bottom:3px">${c.title}</div>
+    <div style="font-size:11px;color:var(--text2);margin-bottom:8px">${c.en} · ${c.employer} · ${c.hours}h</div>
+    ${c.badge?`<span class="pill pill-ok" style="font-size:10px">Badge available</span> `:''}
+    <span class="pill pill-plan" style="font-size:10px">Accreditation: targeted</span>
+    ${showProgress&&c.enrolled?`<div class="pb" style="margin-top:10px"><div class="pf" style="width:${c.progress}%"></div></div><div class="pl"><span>Progress</span><span>${c.progress}%</span></div>`:''}
+    ${!c.enrolled?`<button class="btn-full btn-full-green" onclick="event.stopPropagation();enrollCourse(${c.id},this)">Enroll — SAR ${c.price}</button>`:`<button class="btn-full btn-full-done" style="margin-top:10px">Enrolled</button>`}
+  </div>`;
+}
+
+function enrollCourse(id,btn){
+  const c=courses.find(x=>x.id===id);
+  if(c)c.enrolled=true;
+  btn.textContent='Enrolled';btn.className='btn-full btn-full-done';btn.onclick=null;
+  showToast('Enrolled! يمكنك البدء الآن');
+}
+
+function renderDashCourses(){
+  const el=document.getElementById('dash-courses');
+  if(el)el.innerHTML=courses.filter(c=>c.enrolled).map(c=>courseCard(c,true)).join('');
+  const el2=document.getElementById('dash-courses-2');
+  if(el2)el2.innerHTML=courses.filter(c=>c.enrolled).map(c=>courseCard(c,true)).join('');
+}
+
+function renderCatalog(){
+  const sec=document.getElementById('cf-sector')?.value||'';
+  const diff=document.getElementById('cf-diff')?.value||'';
+  const badge=document.getElementById('cf-badge')?.value||'';
+  let f=courses;
+  if(sec)f=f.filter(c=>c.sector===sec);
+  if(diff)f=f.filter(c=>c.diff===diff);
+  if(badge==='yes')f=f.filter(c=>c.badge);
+  const el=document.getElementById('catalog-list');
+  if(el)el.innerHTML=f.map(c=>courseCard(c,false)).join('');
+}
+
+function renderStreak(){
+  const el=document.getElementById('streak-days');
+  if(!el)return;
+  const days=['S','M','T','W','T','F','S'],on=[1,2,3,4,5,6];
+  el.innerHTML=days.map((d,i)=>`<div class="streak-day ${on.includes(i)?'streak-on':'streak-off'}">${d}</div>`).join('');
+}
+
+function renderLessons(){
+  let done=0;
+  const el=document.getElementById('lesson-list');
+  if(!el)return;
+  el.innerHTML=lessons.map((l,i)=>{
+    if(l.done)done++;
+    return `<div class="lesson-item ${l.done?'done-l':''}" onclick="clickLesson(${i})">
+      <div class="lesson-num ${l.done?'done-n':''}">${l.done?'✓':i+1}</div>
+      <div class="lesson-t">${l.title}</div>
+      <div class="lesson-dur">${l.dur}</div>
+      ${l.active?`<span class="pill pill-ok">Current</span>`:''}
+    </div>`;
+  }).join('');
+  const pct=Math.round(done/lessons.length*100);
+  const bar=document.getElementById('lp-bar');
+  const pctEl=document.getElementById('lp-pct');
+  if(bar)bar.style.width=pct+'%';
+  if(pctEl)pctEl.textContent=pct+'%';
+}
+
+function clickLesson(i){
+  if(lessons[i].done){showToast('Already completed!');return;}
+  lessons[i].done=true;lessons[i].active=false;
+  if(i+1<lessons.length)lessons[i+1].active=true;
+  renderLessons();
+  const allDone=lessons.every(x=>x.done);
+  if(allDone){
+    const qb=document.getElementById('quiz-block');
+    const lc=document.getElementById('lesson-complete');
+    if(qb)qb.style.display='none';
+    if(lc)lc.style.display='block';
+  } else showQuiz();
+  showToast('Lesson completed! درس مكتمل');
+}
+
+function showQuiz(){
+  if(quizAnswered)return;
+  const qb=document.getElementById('quiz-block');
+  if(!qb)return;
+  qb.style.display='block';
+  document.getElementById('quiz-q').textContent=quiz.q;
+  document.getElementById('quiz-opts').innerHTML=quiz.opts.map((o,i)=>`<div class="qopt" onclick="answerQuiz(${i},this)">${o}</div>`).join('');
+}
+
+function answerQuiz(i,el){
+  if(quizAnswered)return;
+  quizAnswered=true;
+  const fb=document.getElementById('quiz-fb');
+  if(i===quiz.correct){el.classList.add('correct');fb.style.color='var(--success)';fb.textContent='Correct! Well done. نعم، هذا صحيح!';}
+  else{el.classList.add('wrong');document.querySelectorAll('.qopt')[quiz.correct].classList.add('correct');fb.style.color='var(--danger)';fb.textContent='Not quite — correct answer highlighted above.';}
+  fb.style.display='block';
+}
+
+function renderBadges(){
+  const el=document.getElementById('badge-list');
+  if(!el)return;
+  el.innerHTML=badgesData.map(b=>`
+    <div class="badge-c">
+      <div class="badge-icon" style="background:${b.color}">${b.icon}</div>
+      <div class="badge-n">${b.name}</div>
+      <div class="badge-i">${b.issuer}</div>
+      <div class="badge-id">ID: ${b.id}</div>
+      <div style="font-size:9px;color:var(--text3);margin-bottom:4px">${b.issued}</div>
+      <div class="verify-link" onclick="showToast('${b.id} — ${b.verify}')">Verify badge</div>
+    </div>`).join('');
+}
+
+function verifyBadge(){
+  const id=document.getElementById('verify-input')?.value.trim();
+  const b=badgesData.find(x=>x.id===id);
+  const res=document.getElementById('verify-result');
+  if(!res)return;
+  if(b){res.innerHTML=`<div class="icard" style="display:flex;gap:12px;align-items:center;margin-bottom:12px"><div class="badge-icon" style="background:${b.color};width:38px;height:38px;font-size:18px">${b.icon}</div><div><div class="rn">${b.name}</div><div class="rs">Issued by ${b.issuer} · ${b.issued}</div><div style="font-size:11px;margin-top:3px;color:var(--green)">✓ ${b.verify}</div></div></div>`;}
+  else{res.innerHTML=`<div style="font-size:13px;color:var(--danger);padding:8px 0">Badge ID not found. Try RYD-ML-001 or RYD-PE-002.</div>`;}
+}
+
+function renderMentors(){
+  const el=document.getElementById('mentor-list');
+  if(!el)return;
+  el.innerHTML=mentors.map(m=>`
+    <div class="icard" style="display:flex;align-items:center;gap:12px">
+      <div class="av ${m.avc}">${m.av}</div>
+      <div style="flex:1">
+        <div class="rn">${m.name}</div>
+        <div class="rs">${m.role}</div>
+        <div style="display:flex;gap:4px;margin-top:5px">${m.tags.map(t=>`<span class="pill pill-ok" style="font-size:10px">${t}</span>`).join('')}</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:7px">Next: ${m.next}</div>
+        <button class="btn-sm btn-sm-outline" onclick="showToast('Session request sent to ${m.name}!')">Request session</button>
+      </div>
+    </div>`).join('');
+}
+
+function renderEmpCourses(){
+  const el=document.getElementById('emp-courses');
+  if(!el)return;
+  el.innerHTML=courses.filter(c=>['STC Academy','SDAIA'].includes(c.employer)).map(c=>`
+    <div class="row">
+      <span class="pill ${sMap[c.sector]||'pill-ai'}">${c.sector}</span>
+      <div style="flex:1;margin-left:8px"><div class="rn">${c.en}</div><div class="rs ar-text" style="font-size:11px">${c.title} · ${c.hours}h</div></div>
+      <span class="pill pill-plan">Targeted</span>
+      <button class="btn-sm btn-sm-outline" style="margin-left:8px" onclick="showToast('Managing ${c.en}')">Manage</button>
+    </div>`).join('');
+}
+
+function renderCandidates(){
+  const f=document.getElementById('cand-filter')?.value||'';
+  const list=f?candidates.filter(c=>c.cat===f):candidates;
+  const el=document.getElementById('cand-list');
+  if(!el)return;
+  el.innerHTML=list.map(c=>`
+    <div class="row">
+      <div class="av ${c.avc}">${c.av}</div>
+      <div style="flex:1"><div class="rn">${c.name}</div><div class="rs">${c.cert}</div></div>
+      <div style="font-size:13px;font-weight:700;color:var(--green)">${c.score}</div>
+      <button class="btn-sm btn-sm-outline" style="margin-left:8px" onclick="showToast('Viewing profile of ${c.name}')">View</button>
+    </div>`).join('');
+}
+
+function postJob(){
+  const t=document.getElementById('jt')?.value.trim();
+  const s=document.getElementById('js')?.value;
+  const l=document.getElementById('jl')?.value.trim()||'Riyadh';
+  const sal=document.getElementById('jsal')?.value.trim()||'TBD';
+  if(!t||!s){showToast('Please fill in title and sector','err');return;}
+  const row=document.createElement('div');
+  row.className='row';
+  row.innerHTML=`<div style="flex:1"><div class="rn">${t}</div><div class="rs">${s} · ${l} · SAR ${sal}</div></div><span class="pill pill-ok">Active</span>`;
+  document.getElementById('job-list')?.appendChild(row);
+  ['jt','jc','jl','jsal'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  const js=document.getElementById('js');if(js)js.value='';
+  showToast('Job posted! تم نشر الوظيفة');
+}
+
+function renderAdminTrends(){
+  const el=document.getElementById('admin-trends');
+  if(!el)return;
+  const max=Math.max(...trends.map(t=>t.pct));
+  el.innerHTML=trends.map((t,i)=>`
+    <div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)">
+      <div style="font-size:12px;font-weight:700;color:var(--text3);width:16px">${i+1}</div>
+      <div style="font-size:13px;color:var(--text);flex:1">${t.name}</div>
+      <div style="width:100px;height:5px;background:var(--bg3);border-radius:99px;overflow:hidden"><div style="height:100%;width:${Math.round(t.pct/max*100)}%;background:${t.color};border-radius:99px"></div></div>
+      <div style="font-size:11px;color:var(--text2);width:30px;text-align:right">${t.pct}%</div>
+    </div>`).join('');
+}
+
+function renderAdminTables(){
+  const ct=document.getElementById('admin-course-table');
+  if(ct)ct.innerHTML=`<thead><tr><th>Course</th><th>Sector</th><th>Employer</th><th>Enrollments</th><th>Completion</th><th>Status</th></tr></thead><tbody>${courses.map(c=>`<tr><td>${c.en}</td><td><span class="pill ${sMap[c.sector]}">${c.sector}</span></td><td>${c.employer}</td><td>${Math.floor(Math.random()*800+200)}</td><td>${Math.floor(Math.random()*30+55)}%</td><td><span class="pill pill-ok">Active</span></td></tr>`).join('')}</tbody>`;
+  const et=document.getElementById('admin-emp-table');
+  if(et)et.innerHTML=`<thead><tr><th>Employer</th><th>Industry</th><th>Courses</th><th>Status</th><th></th></tr></thead><tbody>${employers_data.map(e=>`<tr><td style="font-weight:600">${e.name}</td><td>${e.industry}</td><td>${e.courses}</td><td><span class="pill ${e.status==='Active'?'pill-ok':'pill-plan'}">${e.status}</span></td><td><button class="btn-sm btn-sm-outline" onclick="showToast('Managing ${e.name}')">Manage</button></td></tr>`).join('')}</tbody>`;
+}
+
+function showToast(msg,type){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.className='toast'+(type==='err'?' err':'');
+  t.style.display='block';
+  clearTimeout(t._timer);
+  t._timer=setTimeout(()=>t.style.display='none',2500);
+}
+
+renderAuthForm();
+</script>
+</body>
+</html>
