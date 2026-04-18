@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Riyada Skills — MVP</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f4f0;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:24px}
+.app{display:flex;height:680px;border-radius:12px;overflow:hidden;border:0.5px solid rgba(0,0,0,0.12);width:100%;max-width:960px}
+.sidebar{width:210px;background:#fff;border-right:0.5px solid rgba(0,0,0,0.12);display:flex;flex-direction:column;flex-shrink:0}
+.logo-area{padding:16px;border-bottom:0.5px solid rgba(0,0,0,0.12)}
+.logo-en{font-size:15px;font-weight:500;color:#111}
+.logo-ar{font-size:13px;color:#666;direction:rtl}
+.nav-section{font-size:10px;color:#aaa;padding:12px 14px 4px;text-transform:uppercase;letter-spacing:.06em;font-weight:500}
+.ni{display:flex;align-items:center;gap:9px;padding:8px 14px;font-size:13px;color:#555;cursor:pointer;border-left:2px solid transparent}
+.ni:hover{background:#f5f4f0;color:#111}
+.ni.on{color:#185FA5;border-left-color:#185FA5;background:#E6F1FB;font-weight:500}
+.ni svg{width:15px;height:15px;flex-shrink:0}
+.role-switcher{margin-top:auto;padding:12px 14px;border-top:0.5px solid rgba(0,0,0,0.1)}
+.role-label{font-size:10px;color:#aaa;margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em}
+.role-btns{display:flex;gap:4px}
+.role-btn{flex:1;padding:5px 0;font-size:11px;cursor:pointer;border:0.5px solid rgba(0,0,0,0.2);border-radius:8px;background:transparent;color:#555}
+.role-btn.on{background:#185FA5;color:#fff;border-color:#185FA5;font-weight:500}
+.main{flex:1;overflow-y:auto;background:#fff;position:relative}
+.view{display:none;padding:22px}
+.view.on{display:block}
+.pt{font-size:17px;font-weight:500;color:#111;margin-bottom:3px}
+.ps{font-size:12px;color:#666;margin-bottom:18px}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px}
+.met{background:#f5f4f0;border-radius:8px;padding:12px}
+.ml{font-size:11px;color:#666;margin-bottom:3px}
+.mv{font-size:20px;font-weight:500;color:#111}
+.md{font-size:10px;color:#2d8a4e;margin-top:2px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.card{background:#fff;border:0.5px solid rgba(0,0,0,0.12);border-radius:12px;padding:14px}
+.card:hover{border-color:rgba(0,0,0,0.25)}
+.sec{font-size:13px;font-weight:500;color:#111;margin-bottom:10px}
+.pill{font-size:10px;padding:2px 8px;border-radius:99px;font-weight:500;display:inline-block}
+.pill-ai{background:#E6F1FB;color:#0C447C}
+.pill-fin{background:#EAF3DE;color:#27500A}
+.pill-re{background:#FAEEDA;color:#633806}
+.pill-data{background:#EEEDFE;color:#3C3489}
+.pill-dig{background:#E1F5EE;color:#085041}
+.pill-ok{background:#EAF3DE;color:#3B6D11}
+.pill-plan{background:#FAEEDA;color:#854F0B}
+.ct{font-size:13px;font-weight:500;color:#111;margin:6px 0 3px}
+.ce{font-size:11px;color:#666;margin-bottom:8px}
+.pb{height:4px;background:#f5f4f0;border-radius:99px;overflow:hidden;margin-bottom:5px}
+.pf{height:100%;border-radius:99px;background:#378ADD}
+.pl{font-size:10px;color:#aaa;display:flex;justify-content:space-between}
+.btn-p{width:100%;margin-top:10px;padding:7px;font-size:12px;cursor:pointer;background:#185FA5;color:#fff;border:none;border-radius:8px;font-weight:500}
+.btn-p:hover{background:#0C447C}
+.btn-p.done{background:#f5f4f0;color:#888;cursor:default}
+.btn-o{padding:7px 14px;font-size:12px;cursor:pointer;background:transparent;color:#185FA5;border:0.5px solid #185FA5;border-radius:8px;font-weight:500}
+.btn-o:hover{background:#E6F1FB}
+.row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:0.5px solid rgba(0,0,0,0.08)}
+.row:last-child{border-bottom:none}
+.av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;flex-shrink:0}
+.av-b{background:#E6F1FB;color:#0C447C}
+.av-t{background:#E1F5EE;color:#085041}
+.av-p{background:#EEEDFE;color:#3C3489}
+.av-a{background:#FAEEDA;color:#633806}
+.rn{font-size:13px;font-weight:500;color:#111}
+.rs{font-size:11px;color:#666}
+.badge-grid{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.badge-c{background:#fff;border:0.5px solid rgba(0,0,0,0.12);border-radius:12px;padding:12px;width:130px;text-align:center}
+.badge-icon{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 7px;font-size:20px}
+.badge-n{font-size:12px;font-weight:500;color:#111;margin-bottom:2px}
+.badge-i{font-size:10px;color:#666;margin-bottom:5px}
+.verify{font-size:10px;color:#185FA5;cursor:pointer}
+.lesson-list{display:flex;flex-direction:column;gap:6px}
+.lesson-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;cursor:pointer}
+.lesson-item:hover{background:#f5f4f0}
+.lesson-item.done-l{background:#f5f4f0;opacity:.8}
+.lesson-num{width:24px;height:24px;border-radius:50%;background:#E6F1FB;color:#0C447C;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;flex-shrink:0}
+.lesson-num.done-n{background:#EAF3DE;color:#27500A}
+.lesson-t{font-size:13px;color:#111;flex:1}
+.lesson-dur{font-size:11px;color:#aaa}
+.quiz-block{background:#f5f4f0;border-radius:8px;padding:14px;margin-top:12px}
+.quiz-q{font-size:13px;font-weight:500;color:#111;margin-bottom:10px}
+.quiz-opts{display:flex;flex-direction:column;gap:6px}
+.qopt{padding:8px 12px;font-size:13px;border:0.5px solid rgba(0,0,0,0.2);border-radius:8px;cursor:pointer;color:#111;background:#fff}
+.qopt:hover{background:#f5f4f0}
+.qopt.correct{background:#EAF3DE;color:#27500A;border-color:#3B6D11}
+.qopt.wrong{background:#FCEBEB;color:#A32D2D;border-color:#A32D2D}
+.streak{display:flex;gap:4px;margin-bottom:12px}
+.streak-day{width:22px;height:22px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500}
+.streak-on{background:#EAF3DE;color:#27500A}
+.streak-off{background:#f5f4f0;color:#aaa}
+.auth-wrap{display:flex;align-items:center;justify-content:center;min-height:540px}
+.auth-card{background:#fff;border:0.5px solid rgba(0,0,0,0.12);border-radius:12px;padding:28px;width:340px}
+.auth-title{font-size:18px;font-weight:500;color:#111;margin-bottom:4px}
+.auth-sub{font-size:13px;color:#666;margin-bottom:20px}
+.form-group{margin-bottom:12px}
+.form-label{font-size:12px;color:#666;margin-bottom:4px;display:block}
+.form-group input,.form-group select{width:100%;padding:8px 10px;font-size:13px;border:0.5px solid rgba(0,0,0,0.2);border-radius:8px;outline:none;background:#fff;color:#111}
+.form-group input:focus,.form-group select:focus{border-color:#378ADD}
+.auth-btn{width:100%;padding:9px;font-size:14px;cursor:pointer;background:#185FA5;color:#fff;border:none;border-radius:8px;font-weight:500;margin-top:4px}
+.auth-btn:hover{background:#0C447C}
+.auth-toggle{font-size:12px;color:#666;text-align:center;margin-top:12px;cursor:pointer}
+.auth-toggle span{color:#185FA5}
+.toast{position:fixed;bottom:20px;right:20px;background:#eafaf1;color:#2d8a4e;padding:9px 14px;border-radius:8px;font-size:12px;font-weight:500;display:none;border:0.5px solid #a8d5b5;z-index:999}
+.filter-row{display:flex;gap:8px;margin-bottom:14px}
+.filter-row select{font-size:12px;padding:6px 10px;border:0.5px solid rgba(0,0,0,0.2);border-radius:8px;background:#fff;color:#111;width:auto}
+.ar{direction:rtl;font-size:14px;color:#111}
+.hero{background:#f5f4f0;border-radius:12px;padding:20px;margin-bottom:18px;text-align:center}
+.hero-ar{font-size:20px;font-weight:500;color:#111;direction:rtl;margin-bottom:6px}
+.hero-en{font-size:12px;color:#666;margin-bottom:14px}
+.hero-btns{display:flex;gap:8px;justify-content:center}
+.benefit-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:18px}
+.benefit-c{background:#fff;border:0.5px solid rgba(0,0,0,0.12);border-radius:12px;padding:12px;text-align:center}
+.benefit-icon{font-size:20px;margin-bottom:6px}
+.benefit-t{font-size:11px;font-weight:500;color:#111;direction:rtl}
+.benefit-s{font-size:10px;color:#666}
+.admin-table{width:100%;font-size:12px;border-collapse:collapse}
+.admin-table th{text-align:left;padding:8px 10px;background:#f5f4f0;color:#666;font-weight:500;border-bottom:0.5px solid rgba(0,0,0,0.12)}
+.admin-table td{padding:8px 10px;border-bottom:0.5px solid rgba(0,0,0,0.08);color:#111}
+.admin-table tr:last-child td{border-bottom:none}
+input,select,textarea{font-family:inherit}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="sidebar">
+  <div class="logo-area">
+    <div class="logo-en">Riyada Skills</div>
+    <div class="logo-ar">منصة رياضة المهارات</div>
+  </div>
+  <div id="nav-learner">
+    <div class="nav-section">Learner</div>
+    <div class="ni on" onclick="go('landing',this)">
+      <svg viewBox="0 0 16 16" fill="none"><path d="M1 8L8 2l7 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M3 7v6h4v-3h2v3h4V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Home
+    </div>
+    <div class="ni" onclick="go('dashboard',this)">
+      <svg viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1" fill="currentColor"/><rect x="9" y="1" width="6" height="6" rx="1" fill="currentColor" opacity=".4"/><rect x="1" y="9" width="6" height="6" rx="1" fill="currentColor" opacity=".4"/><rect x="9" y="9" width="6" height="6" rx="1" fill="currentColor"/></svg>Dashboard
+    </div>
+    <div class="ni" onclick="go('catalog',this)">
+      <svg viewBox="0 0 16 16" fill="none"><path d="M2 3h12M2 6h9M2 9h11M2 12h7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Courses
+    </div>
+    <div class="ni" onclick="go('lesson',this)">
+      <svg viewBox="0 0 16 16" fill="none"><polygon points="3,2 13,8 3,14" fill="currentColor" opacity=".7"/></svg>Lesson player
+    </div>
+    <div class="ni" onclick="go('badges',this)">
+      <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="6" r="4" stroke="currentColor" stroke-width="1.5"/><path d="M5 10l-2 5 5-2 5 2-2-5" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Badges
+    </div>
+    <div class="ni" onclick="go('mentorship',this)">
+      <svg viewBox="0 0 16 16" fill="none"><circle cx="6" cy="5" r="3" stroke="currentColor" stroke-width="1.5"/><circle cx="11" cy="7" r="2" stroke="currentColor" stroke-width="1.5"/><path d="M1 14c0-2.76 2.24-5 5-5s5 2.24 5 5" stroke="currentColor" stroke-width="1.5"/><path d="M11 12c1.66 0 3 1.34 3 3" stroke="currentColor" stroke-width="1.5"/></svg>Mentorship
+    </div>
+  </div>
+  <div id="nav-employer" style="display:none">
+    <div class="nav-section">Employer</div>
+    <div class="ni on" onclick="go('employer',this)">
+      <svg viewBox="0 0 16 16" fill="none"><rect x="2" y="5" width="12" height="9" rx="1" stroke="currentColor" stroke-width="1.5"/><path d="M5 5V3a3 3 0 016 0v2" stroke="currentColor" stroke-width="1.5"/></svg>Portal
+    </div>
+    <div class="ni" onclick="go('candidates',this)">
+      <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="6" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M2 14c0-3.31 2.69-6 6-6s6 2.69 6 6" stroke="currentColor" stroke-width="1.5"/></svg>Talent pool
+    </div>
+    <div class="ni" onclick="go('jobpost',this)">
+      <svg viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="1" stroke="currentColor" stroke-width="1.5"/><path d="M8 5v6M5 8h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Post a job
+    </div>
+  </div>
+  <div id="nav-admin" style="display:none">
+    <div class="nav-section">Admin</div>
+    <div class="ni on" onclick="go('admin',this)">
+      <svg viewBox="0 0 16 16" fill="none"><path d="M2 12l3-4 3 2 3-5 3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Overview
+    </div>
+    <div class="ni" onclick="go('manage-courses',this)">
+      <svg viewBox="0 0 16 16" fill="none"><path d="M2 3h12M2 6h9M2 9h11M2 12h7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Manage courses
+    </div>
+    <div class="ni" onclick="go('manage-employers',this)">
+      <svg viewBox="0 0 16 16" fill="none"><rect x="2" y="5" width="12" height="9" rx="1" stroke="currentColor" stroke-width="1.5"/><path d="M5 5V3a3 3 0 016 0v2" stroke="currentColor" stroke-width="1.5"/></svg>Employers
+    </div>
+  </div>
+  <div class="role-switcher">
+    <div class="role-label">Role</div>
+    <div class="role-btns">
+      <button class="role-btn on" onclick="setRole('learner',this)">Learner</button>
+      <button class="role-btn" onclick="setRole('employer',this)">Employer</button>
+      <button class="role-btn" onclick="setRole('admin',this)">Admin</button>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+
+  <div id="v-landing" class="view on">
+    <div class="hero">
+      <div class="hero-ar">ابدأ مسيرتك المهنية مع رياضة المهارات</div>
+      <div class="hero-en">Arabic-first micro-certifications for Vision 2030 sectors — Riyadh youth edition</div>
+      <div class="hero-btns">
+        <button class="btn-p" style="width:auto;padding:8px 18px" onclick="go('catalog',document.querySelector('#nav-learner .ni:nth-child(4)'))">Browse courses</button>
+        <button class="btn-o" onclick="go('auth',null)">Sign up</button>
+      </div>
+    </div>
+    <div class="benefit-grid">
+      <div class="benefit-c"><div class="benefit-icon">📚</div><div class="benefit-t">دروس عربية قصيرة</div><div class="benefit-s">Arabic-first lessons</div></div>
+      <div class="benefit-c"><div class="benefit-icon">🏅</div><div class="benefit-t">شهادات موثوقة</div><div class="benefit-s">Verifiable badges</div></div>
+      <div class="benefit-c"><div class="benefit-icon">🏢</div><div class="benefit-t">اعتراف أصحاب العمل</div><div class="benefit-s">Employer-endorsed</div></div>
+      <div class="benefit-c"><div class="benefit-icon">🎯</div><div class="benefit-t">مسارات رؤية ٢٠٣٠</div><div class="benefit-s">Vision 2030 aligned</div></div>
+    </div>
+    <div class="sec">Featured courses</div>
+    <div class="grid3" id="featured-courses"></div>
+  </div>
+
+  <div id="v-auth" class="view">
+    <div class="auth-wrap">
+      <div class="auth-card">
+        <div class="auth-title" id="auth-title">Welcome back</div>
+        <div class="auth-sub" id="auth-sub">Sign in to your account to continue learning.</div>
+        <div class="form-group"><label class="form-label">Email</label><input type="email" placeholder="you@example.com" id="auth-email"/></div>
+        <div class="form-group" id="auth-name-wrap" style="display:none"><label class="form-label">Full name</label><input type="text" placeholder="Sara Al-Otaibi"/></div>
+        <div class="form-group"><label class="form-label">Password</label><input type="password" placeholder="••••••••"/></div>
+        <div class="form-group" id="auth-role-wrap" style="display:none"><label class="form-label">I am a</label><select><option>Learner</option><option>Employer</option></select></div>
+        <button class="auth-btn" id="auth-btn" onclick="doAuth()">Sign in</button>
+        <div class="auth-toggle" id="auth-toggle" onclick="toggleAuth()">Don't have an account? <span>Sign up</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="v-dashboard" class="view">
+    <div class="pt">مرحباً، سارة</div>
+    <div class="ps">You're on track — keep up the momentum.</div>
+    <div class="sec">Learning streak</div>
+    <div class="streak" id="streak-days"></div>
+    <div class="metrics">
+      <div class="met"><div class="ml">Enrolled</div><div class="mv">3</div><div class="md">↑ 1 this month</div></div>
+      <div class="met"><div class="ml">Badges</div><div class="mv">2</div><div class="md">+1 pending</div></div>
+      <div class="met"><div class="ml">Avg. progress</div><div class="mv">61%</div><div class="md">↑ 12% this week</div></div>
+      <div class="met"><div class="ml">Streak</div><div class="mv">7d</div><div class="md">Personal best</div></div>
+    </div>
+    <div class="sec">Active courses</div>
+    <div class="grid3" id="dash-courses"></div>
+    <div class="sec" style="margin-top:14px">Recommended next</div>
+    <div class="card" style="display:flex;align-items:center;gap:14px">
+      <div style="width:40px;height:40px;border-radius:8px;background:#EEEDFE;display:flex;align-items:center;justify-content:center;font-size:18px">🤖</div>
+      <div style="flex:1">
+        <div style="font-size:13px;font-weight:500;color:#111">AI for Business Leaders</div>
+        <div style="font-size:11px;color:#666">Aramco Digital · 12h · Employer-targeted</div>
+      </div>
+      <button class="btn-o" onclick="showToast('Enrolled in AI for Business Leaders!')">Enroll</button>
+    </div>
+  </div>
+
+  <div id="v-catalog" class="view">
+    <div class="pt">Course catalog</div>
+    <div class="ps">Arabic micro-certifications for Vision 2030 sectors. SAR 99 per course.</div>
+    <div class="filter-row">
+      <select id="cf-sector" onchange="filterCatalog()"><option value="">All sectors</option><option>AI</option><option>Fintech</option><option>Renewable</option><option>Data</option><option>Digital</option></select>
+      <select id="cf-diff" onchange="filterCatalog()"><option value="">All levels</option><option>Beginner</option><option>Intermediate</option></select>
+      <select id="cf-badge" onchange="filterCatalog()"><option value="">Any badge</option><option value="yes">Badge available</option></select>
+    </div>
+    <div class="grid3" id="catalog-list"></div>
+  </div>
+
+  <div id="v-lesson" class="view">
+    <div class="pt">أساسيات الذكاء الاصطناعي</div>
+    <div class="ps">AI Fundamentals · Module 2 of 4 · STC Academy</div>
+    <div style="display:flex;gap:8px;margin-bottom:14px;align-items:center">
+      <div style="flex:1"><div class="pb" style="height:6px"><div class="pf" id="lesson-progress-bar" style="width:45%"></div></div></div>
+      <div style="font-size:11px;color:#666" id="lesson-pct">45%</div>
+    </div>
+    <div class="lesson-list" id="lesson-list"></div>
+    <div class="quiz-block" id="quiz-block" style="display:none">
+      <div class="quiz-q" id="quiz-q"></div>
+      <div class="quiz-opts" id="quiz-opts"></div>
+      <div id="quiz-feedback" style="font-size:12px;margin-top:8px;display:none"></div>
+    </div>
+    <div id="lesson-complete" style="display:none;margin-top:14px">
+      <div class="card" style="text-align:center;padding:20px">
+        <div style="font-size:28px;margin-bottom:8px">🏅</div>
+        <div style="font-size:14px;font-weight:500;color:#111;margin-bottom:4px">Module complete!</div>
+        <div style="font-size:12px;color:#666;margin-bottom:12px">You've earned the AI Fundamentals Module 2 badge. Keep going!</div>
+        <button class="btn-p" style="width:auto;padding:8px 20px" onclick="go('badges',document.querySelector('#nav-learner .ni:nth-child(6)'))">View badge</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="v-badges" class="view">
+    <div class="pt">My badges</div>
+    <div class="ps">Verified credentials · Open Badges & xAPI · Employer-targeted accreditation planned.</div>
+    <div class="badge-grid" id="badge-list"></div>
+    <div class="sec">Badge verification</div>
+    <div class="card" style="display:flex;gap:10px;align-items:center">
+      <input type="text" id="verify-input" placeholder="Enter badge ID (e.g. RYD-ML-001)" style="flex:1;font-size:13px;padding:8px 10px;border:0.5px solid rgba(0,0,0,0.2);border-radius:8px;outline:none"/>
+      <button class="btn-o" onclick="verifyBadge()">Verify</button>
+    </div>
+    <div id="verify-result" style="margin-top:10px;display:none"></div>
+    <div class="sec" style="margin-top:16px">In progress</div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div class="row"><div style="width:30px;height:30px;border-radius:50%;background:#EAF3DE;display:flex;align-items:center;justify-content:center;font-size:14px">🌱</div><div style="flex:1"><div class="rn">Digital Banking Pro</div><div class="rs">45% complete</div></div><span class="pill pill-plan">In progress</span></div>
+      <div class="row"><div style="width:30px;height:30px;border-radius:50%;background:#FAEEDA;display:flex;align-items:center;justify-content:center;font-size:14px">☀️</div><div style="flex:1"><div class="rn">Solar Systems Specialist</div><div class="rs">20% complete</div></div><span class="pill pill-plan">In progress</span></div>
+    </div>
+  </div>
+
+  <div id="v-mentorship" class="view">
+    <div class="pt">Mentorship</div>
+    <div class="ps">Connect with Vision 2030 industry professionals for guided career development.</div>
+    <div style="display:flex;flex-direction:column;gap:10px" id="mentor-list"></div>
+  </div>
+
+  <div id="v-employer" class="view">
+    <div class="pt">Employer portal — STC</div>
+    <div class="ps">Manage co-branded courses, endorse certifications, and access your talent pipeline.</div>
+    <div class="metrics">
+      <div class="met"><div class="ml">Co-branded courses</div><div class="mv">4</div><div class="md">+1 this quarter</div></div>
+      <div class="met"><div class="ml">Certified candidates</div><div class="mv">312</div><div class="md">↑ 18% MoM</div></div>
+      <div class="met"><div class="ml">Active jobs</div><div class="mv">6</div><div class="md">2 closing soon</div></div>
+      <div class="met"><div class="ml">Endorsement status</div><div class="mv" style="font-size:14px">Targeted</div><div class="md">Accreditation: planned</div></div>
+    </div>
+    <div class="sec">Co-branded courses</div>
+    <div style="display:flex;flex-direction:column;gap:6px" id="emp-courses"></div>
+  </div>
+
+  <div id="v-candidates" class="view">
+    <div class="pt">Talent pool</div>
+    <div class="ps">Certified learners available for hiring. Filter by certification.</div>
+    <div class="filter-row">
+      <select id="cand-filter" onchange="filterCandidates()"><option value="">All certifications</option><option value="ML">ML Fundamentals</option><option value="Digital">Digital Banking</option><option value="Data">Data Analytics</option></select>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:0" id="cand-list"></div>
+  </div>
+
+  <div id="v-jobpost" class="view">
+    <div class="pt">Post a job opening</div>
+    <div class="ps">Target certified learners matching your hiring criteria.</div>
+    <div class="card" style="max-width:420px">
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div><label class="form-label">Job title</label><input type="text" id="jt" placeholder="e.g. Data Analyst" style="width:100%;padding:8px 10px;font-size:13px;border:0.5px solid rgba(0,0,0,0.2);border-radius:8px;outline:none"/></div>
+        <div><label class="form-label">Sector</label><select id="js" style="width:100%;padding:8px 10px;font-size:13px;border:0.5px solid rgba(0,0,0,0.2);border-radius:8px;outline:none;background:#fff"><option value="">Select sector</option><option>AI</option><option>Fintech</option><option>Renewable Energy</option><option>Data</option></select></div>
+        <div><label class="form-label">Required certification</label><input type="text" id="jc" placeholder="e.g. ML Fundamentals" style="width:100%;padding:8px 10px;font-size:13px;border:0.5px solid rgba(0,0,0,0.2);border-radius:8px;outline:none"/></div>
+        <div><label class="form-label">Location</label><input type="text" id="jl" placeholder="Riyadh, Saudi Arabia" style="width:100%;padding:8px 10px;font-size:13px;border:0.5px solid rgba(0,0,0,0.2);border-radius:8px;outline:none"/></div>
+        <div><label class="form-label">Salary range (SAR)</label><input type="text" id="jsal" placeholder="8,000 – 12,000 / month" style="width:100%;padding:8px 10px;font-size:13px;border:0.5px solid rgba(0,0,0,0.2);border-radius:8px;outline:none"/></div>
+        <button class="btn-p" onclick="postJob()">Post opening</button>
+      </div>
+    </div>
+    <div class="sec" style="margin-top:18px">Active postings</div>
+    <div style="display:flex;flex-direction:column;gap:6px" id="job-list">
+      <div class="row"><div style="flex:1"><div class="rn">ML Engineer</div><div class="rs">STC · AI · Riyadh · SAR 10,000–14,000</div></div><span class="pill pill-ok">Active</span></div>
+      <div class="row"><div style="flex:1"><div class="rn">Fintech Analyst</div><div class="rs">Saudi Fintech · Fintech · Riyadh · SAR 8,000–11,000</div></div><span class="pill pill-ok">Active</span></div>
+    </div>
+  </div>
+
+  <div id="v-admin" class="view">
+    <div class="pt">Admin overview</div>
+    <div class="ps">Platform analytics — real-time enrollment, completion, and badge data.</div>
+    <div class="metrics">
+      <div class="met"><div class="ml">Total learners</div><div class="mv">12,430</div><div class="md">↑ 18% MoM</div></div>
+      <div class="met"><div class="ml">Enrollments</div><div class="mv">31,200</div><div class="md">↑ 9% WoW</div></div>
+      <div class="met"><div class="ml">Completion rate</div><div class="mv">67%</div><div class="md">↑ 5pp vs Q3</div></div>
+      <div class="met"><div class="ml">Badges issued</div><div class="mv">8,940</div><div class="md">↑ 22% MoM</div></div>
+    </div>
+    <div class="sec">Top skills in demand</div>
+    <div id="admin-trends" style="display:flex;flex-direction:column;gap:0"></div>
+  </div>
+
+  <div id="v-manage-courses" class="view">
+    <div class="pt">Manage courses</div>
+    <div class="ps">Add, edit, or archive micro-certification courses.</div>
+    <div style="margin-bottom:12px;display:flex;justify-content:flex-end"><button class="btn-o" onclick="showToast('Course creation form coming soon!')">+ Add course</button></div>
+    <div style="overflow-x:auto"><table class="admin-table" id="admin-course-table"></table></div>
+  </div>
+
+  <div id="v-manage-employers" class="view">
+    <div class="pt">Employer partners</div>
+    <div class="ps">Manage employer partnerships and endorsement status.</div>
+    <div style="overflow-x:auto"><table class="admin-table" id="admin-emp-table"></table></div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+</div>
+</div>
+
+<script>
+const courses=[
+  {id:1,title:'أساسيات الذكاء الاصطناعي',en:'AI Fundamentals',sector:'AI',employer:'STC',hours:20,diff:'Beginner',badge:true,accredited:'Targeted',progress:78,enrolled:true,price:99},
+  {id:2,title:'مقدمة في الخدمات المصرفية الرقمية',en:'Digital Banking',sector:'Fintech',employer:'Riyad Bank',hours:15,diff:'Beginner',badge:true,accredited:'Targeted',progress:45,enrolled:true,price:99},
+  {id:3,title:'أنظمة الطاقة الشمسية',en:'Solar Energy Systems',sector:'Renewable',employer:'ACWA Power',hours:25,diff:'Intermediate',badge:true,accredited:'Targeted',progress:20,enrolled:true,price:99},
+  {id:4,title:'تحليل البيانات بالبايثون',en:'Data Analytics',sector:'Data',employer:'SDAIA',hours:22,diff:'Intermediate',badge:true,accredited:'Targeted',progress:0,enrolled:false,price:99},
+  {id:5,title:'الذكاء الاصطناعي لقيادة الأعمال',en:'AI for Business Leaders',sector:'AI',employer:'Aramco Digital',hours:12,diff:'Beginner',badge:true,accredited:'Targeted',progress:0,enrolled:false,price:99},
+  {id:6,title:'أساسيات المهارات الرقمية',en:'Digital Literacy',sector:'Digital',employer:'STC',hours:10,diff:'Beginner',badge:false,accredited:'Targeted',progress:0,enrolled:false,price:99},
+];
+const sMap={AI:'pill-ai',Fintech:'pill-fin',Renewable:'pill-re',Data:'pill-data',Digital:'pill-dig'};
+const lessons=[
+  {id:1,title:'ما هو الذكاء الاصطناعي؟',dur:'8 min',done:true},
+  {id:2,title:'تعلم الآلة: المفاهيم الأساسية',dur:'12 min',done:true},
+  {id:3,title:'التعلم العميق والشبكات العصبية',dur:'15 min',done:false,active:true},
+  {id:4,title:'تطبيقات الذكاء الاصطناعي في السعودية',dur:'10 min',done:false},
+];
+const quiz={q:'What is the primary goal of supervised learning?',opts:['Learn from unlabeled data','Learn from labeled input-output pairs','Generate new content','Optimize hardware performance'],correct:1};
+const badges_data=[
+  {id:'RYD-ML-001',name:'ML Foundations',issuer:'STC Academy',icon:'🤖',color:'#E6F1FB',issued:'Jan 2025',verify:'Verified by STC Academy'},
+  {id:'RYD-PE-002',name:'Prompt Engineering',issuer:'Aramco Digital',icon:'⚡',color:'#EEEDFE',issued:'Nov 2024',verify:'Verified by Aramco Digital'},
+];
+const mentors=[
+  {name:'Ahmad Al-Rashidi',role:'AI Lead, STC',av:'AR',avc:'av-b',tags:['AI','ML'],next:'Wed 10am'},
+  {name:'Noura Al-Sayed',role:'Fintech Director, Stc pay',av:'NS',avc:'av-t',tags:['Fintech','Open Banking'],next:'Thu 2pm'},
+  {name:'Khalid Ibrahim',role:'Renewable Eng., ACWA Power',av:'KI',avc:'av-a',tags:['Renewable','Solar'],next:'Fri 11am'},
+  {name:'Reem Al-Dossari',role:'Data Scientist, SDAIA',av:'RD',avc:'av-p',tags:['Data','Python'],next:'Mon 9am'},
+];
+const candidates=[
+  {name:'Omar Khalil',cert:'ML Fundamentals',score:'96%',av:'OK',avc:'av-b',cat:'ML'},
+  {name:'Lina Badr',cert:'Digital Banking',score:'91%',av:'LB',avc:'av-t',cat:'Digital'},
+  {name:'Faris Al-Otaibi',cert:'Data Analytics',score:'88%',av:'FA',avc:'av-p',cat:'Data'},
+  {name:'Hana Murad',cert:'ML Fundamentals',score:'85%',av:'HM',avc:'av-a',cat:'ML'},
+  {name:'Salma Qureshi',cert:'Digital Banking',score:'82%',av:'SQ',avc:'av-b',cat:'Digital'},
+];
+const trends=[
+  {name:'Generative AI',pct:92,color:'#378ADD'},
+  {name:'Cybersecurity',pct:85,color:'#3C3489'},
+  {name:'Data Engineering',pct:78,color:'#1D9E75'},
+  {name:'Fintech Compliance',pct:71,color:'#639922'},
+  {name:'Cloud Architecture',pct:65,color:'#BA7517'},
+];
+const employers_data=[
+  {name:'STC',industry:'Telecom/AI',courses:4,status:'Active partner'},
+  {name:'Riyad Bank',industry:'Fintech',courses:2,status:'Active partner'},
+  {name:'ACWA Power',industry:'Renewable',courses:1,status:'Active partner'},
+  {name:'SDAIA',industry:'Data/Gov',courses:3,status:'Active partner'},
+  {name:'Aramco Digital',industry:'AI/Tech',courses:2,status:'Onboarding'},
+];
+let authMode='login';
+let currentQuizAnswered=false;
+
+function go(view,el){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
+  const v=document.getElementById('v-'+view);
+  if(v)v.classList.add('on');
+  if(el)el.classList.add('on');
+}
+function setRole(role,btn){
+  document.querySelectorAll('.role-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  document.getElementById('nav-learner').style.display=role==='learner'?'block':'none';
+  document.getElementById('nav-employer').style.display=role==='employer'?'block':'none';
+  document.getElementById('nav-admin').style.display=role==='admin'?'block':'none';
+  if(role==='learner')go('landing',document.querySelector('#nav-learner .ni'));
+  if(role==='employer')go('employer',document.querySelector('#nav-employer .ni'));
+  if(role==='admin')go('admin',document.querySelector('#nav-admin .ni'));
+}
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.style.display='block';
+  setTimeout(()=>t.style.display='none',2400);
+}
+function courseCard(c,showProgress){
+  return `<div class="card" style="cursor:pointer">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
+      <span class="pill ${sMap[c.sector]}">${c.sector}</span>
+      <span style="font-size:10px;color:#aaa">${c.diff}</span>
+    </div>
+    <div class="ar" style="font-size:13px;font-weight:500;margin-bottom:2px">${c.title}</div>
+    <div class="ce">${c.en} · by ${c.employer} · ${c.hours}h</div>
+    ${c.badge?`<span class="pill pill-ok" style="font-size:10px">Badge available</span>`:''}
+    <span class="pill pill-plan" style="font-size:10px;margin-left:4px">Accreditation: ${c.accredited}</span>
+    ${showProgress&&c.enrolled?`<div class="pb" style="margin-top:8px"><div class="pf" style="width:${c.progress}%"></div></div><div class="pl"><span>Progress</span><span>${c.progress}%</span></div>`:''}
+    ${!c.enrolled?`<button class="btn-p" onclick="event.stopPropagation();enrollCourse(${c.id},this)">Enroll — SAR ${c.price}</button>`:`<button class="btn-p done" style="margin-top:8px">Enrolled</button>`}
+  </div>`;
+}
+function enrollCourse(id,btn){
+  const c=courses.find(x=>x.id===id);
+  if(c){c.enrolled=true;}
+  btn.textContent='Enrolled';btn.classList.add('done');btn.onclick=null;
+  showToast('Enrolled! يمكنك البدء الآن');
+}
+function renderFeatured(){document.getElementById('featured-courses').innerHTML=courses.slice(0,3).map(c=>courseCard(c,false)).join('');}
+function renderDashCourses(){document.getElementById('dash-courses').innerHTML=courses.filter(c=>c.enrolled).map(c=>courseCard(c,true)).join('');}
+function filterCatalog(){
+  const sec=document.getElementById('cf-sector').value;
+  const diff=document.getElementById('cf-diff').value;
+  const badge=document.getElementById('cf-badge').value;
+  let f=courses;
+  if(sec)f=f.filter(c=>c.sector===sec);
+  if(diff)f=f.filter(c=>c.diff===diff);
+  if(badge==='yes')f=f.filter(c=>c.badge);
+  document.getElementById('catalog-list').innerHTML=f.map(c=>courseCard(c,false)).join('');
+}
+function renderStreak(){
+  const days=['S','M','T','W','T','F','S'];
+  const on=[1,2,3,4,5,6];
+  document.getElementById('streak-days').innerHTML=days.map((d,i)=>`<div class="streak-day ${on.includes(i)?'streak-on':'streak-off'}">${d}</div>`).join('');
+}
+function renderLessons(){
+  let done=0;
+  document.getElementById('lesson-list').innerHTML=lessons.map((l,i)=>{
+    if(l.done)done++;
+    return `<div class="lesson-item ${l.done?'done-l':''}" onclick="clickLesson(${i})">
+      <div class="lesson-num ${l.done?'done-n':''}">${l.done?'✓':i+1}</div>
+      <div class="lesson-t">${l.title}</div>
+      <div class="lesson-dur">${l.dur}</div>
+      ${l.active?`<span class="pill pill-ai">Current</span>`:''}
+    </div>`;
+  }).join('');
+  const pct=Math.round(done/lessons.length*100);
+  document.getElementById('lesson-progress-bar').style.width=pct+'%';
+  document.getElementById('lesson-pct').textContent=pct+'%';
+}
+function clickLesson(i){
+  if(lessons[i].done){showToast('Already completed!');return;}
+  lessons[i].done=true;lessons[i].active=false;
+  if(i+1<lessons.length)lessons[i+1].active=true;
+  renderLessons();
+  const allDone=lessons.every(x=>x.done);
+  if(allDone){document.getElementById('quiz-block').style.display='none';document.getElementById('lesson-complete').style.display='block';}
+  else showQuiz();
+  showToast('Lesson completed! درس مكتمل');
+}
+function showQuiz(){
+  if(currentQuizAnswered)return;
+  document.getElementById('quiz-block').style.display='block';
+  document.getElementById('quiz-q').textContent=quiz.q;
+  document.getElementById('quiz-opts').innerHTML=quiz.opts.map((o,i)=>`<div class="qopt" onclick="answerQuiz(${i},this)">${o}</div>`).join('');
+}
+function answerQuiz(i,el){
+  if(currentQuizAnswered)return;
+  currentQuizAnswered=true;
+  const fb=document.getElementById('quiz-feedback');
+  if(i===quiz.correct){el.classList.add('correct');fb.style.color='#2d8a4e';fb.textContent='Correct! Well done. نعم، هذا صحيح!';}
+  else{el.classList.add('wrong');document.querySelectorAll('.qopt')[quiz.correct].classList.add('correct');fb.style.color='#A32D2D';fb.textContent='Not quite. The correct answer is highlighted above.';}
+  fb.style.display='block';
+}
+function renderBadges(){
+  document.getElementById('badge-list').innerHTML=badges_data.map(b=>`
+    <div class="badge-c">
+      <div class="badge-icon" style="background:${b.color}">${b.icon}</div>
+      <div class="badge-n">${b.name}</div>
+      <div class="badge-i">${b.issuer}</div>
+      <div style="font-size:10px;color:#aaa;margin-bottom:5px">${b.issued}</div>
+      <div style="font-size:9px;color:#aaa;margin-bottom:4px">ID: ${b.id}</div>
+      <div class="verify" onclick="showToast('Badge ${b.id} verified — ${b.verify}')">Verify badge</div>
+    </div>`).join('');
+}
+function verifyBadge(){
+  const id=document.getElementById('verify-input').value.trim();
+  const b=badges_data.find(x=>x.id===id);
+  const res=document.getElementById('verify-result');
+  if(b){res.style.display='block';res.innerHTML=`<div class="card" style="display:flex;gap:12px;align-items:center"><div class="badge-icon" style="background:${b.color};width:36px;height:36px;font-size:16px">${b.icon}</div><div><div class="rn">${b.name}</div><div class="rs">Issued by ${b.issuer} · ${b.issued}</div><div style="font-size:11px;margin-top:3px;color:#2d8a4e">✓ ${b.verify}</div></div></div>`;}
+  else{res.style.display='block';res.innerHTML=`<div style="font-size:12px;color:#A32D2D;padding:8px">Badge ID not found. Try RYD-ML-001 or RYD-PE-002.</div>`;}
+}
+function renderMentors(){
+  document.getElementById('mentor-list').innerHTML=mentors.map(m=>`
+    <div class="card" style="display:flex;align-items:center;gap:12px">
+      <div class="av ${m.avc}">${m.av}</div>
+      <div style="flex:1"><div class="rn">${m.name}</div><div class="rs">${m.role}</div>
+        <div style="display:flex;gap:4px;margin-top:4px">${m.tags.map(t=>`<span class="pill pill-ai">${t}</span>`).join('')}</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:11px;color:#666;margin-bottom:6px">Next slot: ${m.next}</div>
+        <button class="btn-o" style="font-size:11px;padding:5px 10px" onclick="showToast('Session requested with ${m.name}!')">Request session</button>
+      </div>
+    </div>`).join('');
+}
+function renderEmpCourses(){
+  document.getElementById('emp-courses').innerHTML=courses.filter(c=>['STC','SDAIA'].includes(c.employer)).map(c=>`
+    <div class="row">
+      <span class="pill ${sMap[c.sector]}">${c.sector}</span>
+      <div style="flex:1;margin-left:8px"><div class="rn">${c.en}</div><div class="rs">${c.title} · ${c.hours}h</div></div>
+      <span class="pill pill-plan">${c.accredited}</span>
+      <button class="btn-o" style="font-size:11px;padding:5px 10px;margin-left:8px" onclick="showToast('Managing ${c.en}')">Manage</button>
+    </div>`).join('');
+}
+function filterCandidates(){
+  const f=document.getElementById('cand-filter').value;
+  const list=f?candidates.filter(c=>c.cat===f):candidates;
+  document.getElementById('cand-list').innerHTML=list.map(c=>`
+    <div class="row">
+      <div class="av ${c.avc}">${c.av}</div>
+      <div style="flex:1"><div class="rn">${c.name}</div><div class="rs">${c.cert}</div></div>
+      <div style="font-size:12px;font-weight:500;color:#185FA5">${c.score}</div>
+      <button class="btn-o" style="font-size:11px;padding:5px 10px;margin-left:8px" onclick="showToast('Viewing profile of ${c.name}')">View profile</button>
+    </div>`).join('');
+}
+function postJob(){
+  const t=document.getElementById('jt').value.trim();
+  const s=document.getElementById('js').value;
+  const l=document.getElementById('jl').value.trim()||'Riyadh';
+  const sal=document.getElementById('jsal').value.trim()||'TBD';
+  if(!t||!s){showToast('Please fill in title and sector');return;}
+  const row=document.createElement('div');
+  row.className='row';
+  row.innerHTML=`<div style="flex:1"><div class="rn">${t}</div><div class="rs">Employer · ${s} · ${l} · SAR ${sal}</div></div><span class="pill pill-ok">Active</span>`;
+  document.getElementById('job-list').appendChild(row);
+  ['jt','jl','jsal'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('js').value='';
+  showToast('Job posted! تم نشر الوظيفة');
+}
+function renderAdminTrends(){
+  const max=Math.max(...trends.map(t=>t.pct));
+  document.getElementById('admin-trends').innerHTML=trends.map((t,i)=>`
+    <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:0.5px solid rgba(0,0,0,0.08)">
+      <div style="font-size:12px;font-weight:500;color:#aaa;width:16px">${i+1}</div>
+      <div style="font-size:13px;color:#111;flex:1">${t.name}</div>
+      <div style="width:100px;height:6px;background:#f5f4f0;border-radius:99px;overflow:hidden"><div style="height:100%;width:${Math.round(t.pct/max*100)}%;background:${t.color};border-radius:99px"></div></div>
+      <div style="font-size:11px;color:#666;width:30px;text-align:right">${t.pct}%</div>
+    </div>`).join('');
+}
+function renderAdminCourseTable(){
+  const t=document.getElementById('admin-course-table');
+  t.innerHTML=`<thead><tr><th>Course</th><th>Sector</th><th>Employer</th><th>Enrollments</th><th>Completion</th><th>Status</th></tr></thead><tbody>${
+    courses.map(c=>`<tr><td>${c.en}</td><td><span class="pill ${sMap[c.sector]}">${c.sector}</span></td><td>${c.employer}</td><td>${Math.floor(Math.random()*800+200)}</td><td>${Math.floor(Math.random()*30+55)}%</td><td><span class="pill pill-ok">Active</span></td></tr>`).join('')
+  }</tbody>`;
+}
+function renderAdminEmpTable(){
+  const t=document.getElementById('admin-emp-table');
+  t.innerHTML=`<thead><tr><th>Employer</th><th>Industry</th><th>Courses</th><th>Status</th><th>Action</th></tr></thead><tbody>${
+    employers_data.map(e=>`<tr><td style="font-weight:500">${e.name}</td><td>${e.industry}</td><td>${e.courses}</td><td><span class="pill ${e.status==='Active partner'?'pill-ok':'pill-plan'}">${e.status}</span></td><td><button class="btn-o" style="font-size:11px;padding:4px 8px" onclick="showToast('Managing ${e.name}')">Manage</button></td></tr>`).join('')
+  }</tbody>`;
+}
+function toggleAuth(){
+  authMode=authMode==='login'?'signup':'login';
+  document.getElementById('auth-title').textContent=authMode==='login'?'Welcome back':'Create account';
+  document.getElementById('auth-sub').textContent=authMode==='login'?'Sign in to your account to continue learning.':'Join Riyada Skills and start your journey.';
+  document.getElementById('auth-btn').textContent=authMode==='login'?'Sign in':'Create account';
+  document.getElementById('auth-name-wrap').style.display=authMode==='signup'?'block':'none';
+  document.getElementById('auth-role-wrap').style.display=authMode==='signup'?'block':'none';
+  document.getElementById('auth-toggle').innerHTML=authMode==='login'?"Don't have an account? <span>Sign up</span>":"Already have an account? <span>Sign in</span>";
+}
+function doAuth(){
+  const email=document.getElementById('auth-email').value;
+  if(!email){showToast('Please enter your email');return;}
+  showToast(authMode==='login'?'Signed in! مرحباً بك':'Account created! تم إنشاء الحساب');
+  setTimeout(()=>go('dashboard',document.querySelector('#nav-learner .ni:nth-child(3)')),600);
+}
+renderFeatured();renderDashCourses();renderLessons();renderBadges();renderMentors();
+renderEmpCourses();filterCandidates();renderAdminTrends();renderAdminCourseTable();
+renderAdminEmpTable();renderStreak();filterCatalog();
+</script>
+</body>
+</html>
